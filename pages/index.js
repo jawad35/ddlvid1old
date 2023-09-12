@@ -333,7 +333,7 @@ const Home = ({ t }) => {
                 </p>
             </div>
           </div>
-          <div className="section6 section6_0">
+          {/* <div className="section6 section6_0">
             <div className="container">
               <h2>{t('discover_ddlvid')}</h2>
               <div className="row">
@@ -361,8 +361,8 @@ const Home = ({ t }) => {
                 <div className="big">{t('this_is_just_the_start')}</div>
               </div>
             </div>
-          </div>
-          <div className="section6 section6_1">
+          </div> */}
+          {/* <div className="section6 section6_1">
             <div className="container">
               <h2>{t('how_to_download_a_video')}</h2>
               <div className="row">
@@ -388,7 +388,7 @@ const Home = ({ t }) => {
                 </div>
               </div>
             </div>
-          </div>
+          </div> */}
           <div className="section7">
             <div className="container">
               <h2>{t('download_videos_using_our_bots')}</h2>

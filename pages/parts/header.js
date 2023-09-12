@@ -57,7 +57,7 @@ const Header = ({ t }) => {
                 </div>
 
                 <div id="nav" className={(showMobileMenu) ? 'show-menu' : null}>
-                    <div id="lang">
+                    {/* <div id="lang">
                         <select
                             value={i18n.language}
                             onChange={(e) => {
@@ -70,20 +70,29 @@ const Header = ({ t }) => {
                                 return <option value={lang.value} key={lang.value}>{lang.title}</option>
                             })}
                         </select>
-                    </div>
+                    </div> */}
                     <ul>
                         <li>
                             <Link href="/"><a onClick={() => setShowMobileMenu(false)} title={t('home') + ' - DDLVid'}>{t('home')}</a></Link>
                         </li>
-                        <li>
+                        {/* <li>
                             <Link href="/supported-websites"><a onClick={() => setShowMobileMenu(false)} title={t('supported_websites') + ' - DDLVid'}>{t('supported_websites')}</a></Link>
+                        </li> */}
+                         <li>
+                            <Link href="/about"><a onClick={() => setShowMobileMenu(false)} title={t('about_us') + ' - DDLVid'}>{t('about_us')}</a></Link>
                         </li>
                         <li>
-                            <Link href="/contact"><a onClick={() => setShowMobileMenu(false)} title={t('contact_us') + ' - DDLVid'}>{t('contact_us')}</a></Link>
+                            <Link href="/contact"><a onClick={() => setShowMobileMenu(false)} title={t('contact_us')}>{t('contact_us')}</a></Link>
                         </li>
                         <li>
+                            <Link href="/videodownloader"><a onClick={() => setShowMobileMenu(false)} title={t('video_downloader')}>{t('video_downloader')}</a></Link>
+                        </li>
+                        <li>
+                            <Link href="/urlshortener"><a onClick={() => setShowMobileMenu(false)} title={t('url_shortener')}>{t('url_shortener')}</a></Link>
+                        </li>
+                        {/* <li>
                             <a href="https://telegram.me/ddlvid_bot" title="DDLVid Telegram Bot" target="_blank">Telegram</a>
-                        </li>
+                        </li> */}
                     </ul>
                 </div>
                 

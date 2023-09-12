@@ -2,8 +2,10 @@
     "headline": "The World's Safest Online Video Downloader",
     "site_language": "Site Language",
     "home": "Home",
+    "about_us": "About Us",
     "contact_us": "Contact Us",
-    "supported_websites": "Supported Websites",
+    "video_downloader": "Video Downloader",
+    "url_shortener": "Url Shortener",
     "dark_mode": "Dark Mode",
     "light_mode": "Light Mode"
 }
