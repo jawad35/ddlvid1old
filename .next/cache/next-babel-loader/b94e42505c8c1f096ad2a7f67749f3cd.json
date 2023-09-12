@@ -1,0 +1,1 @@
+{"ast":null,"code":"\"use strict\";\n\nconst NextI18Next = require('next-i18next').default;\nmodule.exports = new NextI18Next({\n  strictMode: false,\n  defaultLanguage: 'en',\n  otherLanguages: ['fr', 'pt'],\n  localeSubpaths: {\n    fr: 'fr',\n    pt: 'pt'\n  },\n  interpolation: {\n    escapeValue: false\n  }\n});","map":null,"metadata":{},"sourceType":"script"}

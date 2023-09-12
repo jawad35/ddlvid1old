@@ -1,0 +1,19 @@
+{
+    "meta_description": "Consulter la liste complète des sites pris en charge par ddlvid.com.",
+    "supported_websites": "Sites Supportés",
+    "search": "Rechercher",
+    "twitter_details": "Télécharger les vidéos/GIFs Twitter et Fleets.",
+    "youtube_details": "Télécharger les vidéos Youtube, Convertir les vidéos Youtube en MP3.",
+    "instagram_details": "Télécharger les vidéos Instagram et stories.",
+    "facebook_details": "Télécharger les vidéos Facebook et stories.",
+    "tiktok_details": "Télécharger les vidéos TikTok sans filigrane.",
+    "reddit_details": "Télécharger les vidéos Reddit avec audio.",
+    "pinterest_details": "Télécharger les vidéos Pinterest et GIFs.",
+    "vimeo_details": "Télécharger les vidéos Vimeo.",
+    "periscope_details": "Télécharger les rediffusions de Periscope.",
+    "okru_details": "Télécharger les vidéos OK.RU.",
+    "linkedin_details": "Télécharger les vidéos LinkedIn.",
+    "pornhub_details": "Télécharger les vidéos PornHub.",
+    "vk_details": "Télécharger les vidéos VK.",
+    "triller_details": "Télécharger les vidéos Triller."
+}

@@ -1,0 +1,43 @@
+{
+  "name": "ddlvid",
+  "private": true,
+  "scripts": {
+    "dev": "nodemon server.js",
+    "build": "next build",
+    "start": "NODE_ENV=production node --max-old-space-size=200 --max_old_space_size=200 server.js",
+    "test-api": "mocha --timeout 10000"
+  },
+  "dependencies": {
+    "@mailchimp/mailchimp_marketing": "^3.0.80",
+    "axios": "^0.20.0",
+    "body-parser": "^1.19.0",
+    "cluster": "^0.7.7",
+    "compression": "^1.7.4",
+    "express": "^4.17.1",
+    "express-rate-limit": "^5.1.3",
+    "fluent-ffmpeg": "^2.1.2",
+    "helmet": "^4.1.0",
+    "html-entities": "^1.3.1",
+    "md5": "^2.2.1",
+    "memory-cache": "^0.2.0",
+    "mocha": "^8.0.1",
+    "moment": "^2.24.0",
+    "next": "9.5.3",
+    "next-i18next": "^4.5.0",
+    "nodemailer": "^6.4.8",
+    "nodemon": "^2.0.2",
+    "nprogress": "^0.2.0",
+    "optimize-css-assets-webpack-plugin": "^5.0.3",
+    "path": "^0.12.7",
+    "react": "16.13.1",
+    "react-animated-css-onscroll": "^1.2.1",
+    "react-dom": "16.13.1",
+    "react-easy-emoji": "^1.4.0",
+    "react-google-recaptcha": "^2.1.0",
+    "rimraf": "^3.0.2",
+    "sharethis-reactjs": "^1.5.0",
+    "slugify": "^1.4.0",
+    "toobusy-js": "^0.5.1",
+    "uglifyjs-webpack-plugin": "^2.2.0"
+  }
+}

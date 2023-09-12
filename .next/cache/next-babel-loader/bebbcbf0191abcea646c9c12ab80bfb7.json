@@ -1,0 +1,1 @@
+{"ast":null,"code":"\"use strict\";\n\nimport { useEffect } from 'react';\nexport default function App() {\n  useEffect(() => {\n    window.location = '/';\n  }, []);\n  return null;\n}","map":null,"metadata":{},"sourceType":"module"}

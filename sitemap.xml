@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://ddlvid.com/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ddlvid.com/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://ddlvid.com/fr" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://ddlvid.com/pt" />
+  </url>
+  <url>
+    <loc>https://ddlvid.com/supported-websites</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ddlvid.com/supported-websites" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://ddlvid.com/fr/supported-websites" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://ddlvid.com/pt/supported-websites" />
+  </url>
+  <url>
+    <loc>https://ddlvid.com/instagram-downloader</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ddlvid.com/instagram-downloader" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://ddlvid.com/fr/instagram-downloader" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://ddlvid.com/pt/instagram-downloader" />
+  </url>
+</urlset>

@@ -1,0 +1,149 @@
+.dark body {
+    background: #0d0d0d;
+    color: #FFF;
+}
+.dark #header {
+    background: #000;
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 10px 40px -10px;
+    color: #FFF;
+}
+.dark .theme i,
+.dark #telegramBot {
+    -webkit-filter: invert(1);
+    filter: invert(1);
+}
+.dark .mobileMenuOverlay {
+    background: #1a1a1a;
+}
+.dark #lang select {
+    color: #FFF;
+    border-color: #151515;
+    background: #000;
+}
+.dark #lang::after {
+    border-color: #353535 transparent transparent transparent;
+}
+.dark a,
+.dark #logo a,
+.dark #nav a,
+.dark #nav a:hover,
+.dark h1,
+.dark h2,
+.dark h3,
+.dark h4,
+.dark h5,
+.dark h6,
+.dark .home .section1 .headline h1,
+.dark .home .section1 {
+    color: #FFF;
+}
+.dark .site {
+    -webkit-filter: invert(1);
+    filter: invert(1);
+}
+.dark .home .section1 input,
+.dark .downloadForm input {
+    background: #242424;
+    color: #FFF;
+}
+.dark .home .section1 input::placeholder,
+.dark .downloadForm input::placeholder {
+    opacity: 1;
+    color: #FFF;
+}
+.dark .home .section6_0,
+.dark .home .section7 {
+    background: #111;
+    color: #FFF;
+}
+.dark .home .section5,
+.dark .home .section6_1,
+.dark .home .section8 {
+    background: #000;
+    color: #FFF;
+}
+.dark .card {
+    background: #000;
+    color: #FFF;
+}
+.dark .card input[type="text"] {
+    color: #FFF;
+    background: #000;
+}
+.dark .card .items .item + .item {
+    border-top: 1px solid #1A1818;
+}
+.dark .card .items .item .icon {
+    -webkit-filter: invert(1);
+    filter: invert(1);
+}
+.dark #contact .card input[type="text"],
+.dark #contact .card input[type="email"],
+.dark #contact .card textarea {
+    background: #000;
+    border-color: #1A1818;
+    color: #FFF;
+}
+.dark .popup_langs {
+    background: #000;
+}
+.dark .popup_langs a {
+    color: #FFF;
+}
+.dark .popup_langs > a + a {
+    border-top: 1px solid #151515;
+}
+.dark .home .section1 button:hover,
+.dark .downloadForm button:hover {
+    box-shadow: rgba(0, 109, 240, 0.5) 0px 10px 16px -15px;
+}
+.dark .video {
+    background: #111;
+}
+.dark #download:before {
+    background-image: linear-gradient( 112.1deg,  rgba(32,38,57,1) 11.4%, rgba(63,76,119,1) 70.2% );
+}
+.dark .error {
+    color: #FFF;
+}
+.dark .mobileMenuButton {
+    -webkit-filter: invert(0);
+    filter: invert(0);
+}
+.dark .mgbox a {
+    color: #FFF !important;
+}
+.dark .thumbImage {
+    background: #1a1a1a;
+}
+.dark #quality .btn {
+    border: none;
+    background: #1A1818;
+    color: #FFF;
+}
+.dark #quality .btn-icon:before {
+    -webkit-filter: invert(0);
+    filter: invert(0);
+    opacity: 1;
+}
+.dark #quality .btn-active,
+.dark #quality .btn-active:hover,
+.dark #quality .btn-active:active,
+.dark #quality .btn-active:focus {
+    background: #0093E9;
+}
+
+.dark #loader path {
+    fill: #000;
+    stroke: #FFF;
+}
+
+.dark .___snowStorm___ {
+    color: #FFF!important;
+}
+
+@media screen and (max-width: 900px) {
+    .dark #nav ul li a {
+        border-bottom: 1px solid RGBA(255, 255, 255, 0.1);
+    }
+}
