@@ -245,7 +245,7 @@ const Home = ({ t }) => {
           <div className="section1">
             <div className="container">
               <div className="headline">
-                <img src={"https://pbs.twimg.com/profile_banners/1248273200406028290/1692801582/1080x360"} alt={"Image Crashed"} style={{ width: '100%', height: 'auto' }} />
+                <img className='banner_image' src={"https://fiverr-res.cloudinary.com/image/upload/f_auto,q_auto/v1/secured-attachments/messaging_message/attachment/e70e96a8b4686600d5ec53d6583d33ae-39319921694634323078/DDLVID-1.png?__cld_token__=exp=1694694046~hmac=92e7e953e740f099dbc59a908b618fc0fc471a628d18f2778fee948c79876c75"} alt={"Image Crashed"} style={{ width: '100%', height: 'auto' }} />
                 <h1>{t('headline')}</h1>
                 <div className="desc">
                   {lntobr(t('sub_headline'))}

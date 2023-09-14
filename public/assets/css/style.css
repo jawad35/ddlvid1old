@@ -274,7 +274,7 @@ a:hover {
 button,
 .btn {
     font-family: "Plex", sans-serif;
-    background-color: #006df0;
+    background-color: #144583;
     border: none;
     text-transform: uppercase;
     border-radius: 50px;
@@ -472,7 +472,7 @@ footer {
     display: block;
 }
 .home .section_message {
-    background: #006DF0;
+    background: #144583;
     padding: 13px;
     text-align: center;
     color: #FFF;
@@ -719,7 +719,7 @@ a.lang {
     border-top: 1px solid #f3f3f3;
 }
 .popup_langs > a:hover {
-    background: #006df0;
+    background: #144583;
     color: #FFF;
 }
 .status {
@@ -863,7 +863,7 @@ a.lang {
     width: 100%;
 }
 .news {
-    color: #006df0;
+    color: #144583;
 }
 #cookiebanner {
     position: fixed;
@@ -1236,8 +1236,8 @@ a.lang {
     display: none;
 }
 .home .section5 {
-    background-color: #FF3CAC;
-    background-image: linear-gradient(225deg, #FF3CAC 0%, #784BA0 50%, #2B86C5 100%);
+    background-color: #144583;
+    background-image: linear-gradient(225deg, #144583 0%, #475197 50%, #0ba4d9 100%);
     color: #FFF;
     text-align: center;
     font-size: 20px;
@@ -1378,18 +1378,18 @@ a.lang {
     margin-bottom: 60px;
 }
 .home .section7 em {
-    color: #006df0;
+    color: #144583;
     font-style: normal;
 }
 .home .section8 {
     padding: 60px 0;
     text-align: center;
     background-color: #0093E9;
-    background-image: linear-gradient(160deg, #0093E9 0%, #80D0C7 100%);
+    background-image: linear-gradient(160deg, #144583 0%, #0093E9 100%);
 }
 .home .section8 .btn {
     padding: 15px 30px 15px;
-    background: #FFF;
+    background: #dcdde4;
     color: #000;
     box-shadow: rgba(0, 0, 0, 0.2) 0px 10px 40px -10px;
     display: inline-block;
@@ -1422,8 +1422,8 @@ a.lang {
     width: 100%;
     height: 380px;
     max-height: 50%;
-    background-color: #FF3CAC;
-    background-image: linear-gradient(225deg, #FF3CAC 0%, #784BA0 50%, #2B86C5 100%);
+    background-color: #144583;
+    background-image: linear-gradient(225deg, #144583 0%, #dcdde4 50%, #0ba4d9 100%);
 }
 #download:before {
     background-color: #8BC6EC;
@@ -1907,6 +1907,15 @@ a.lang {
       width: 100%;
     }
   }
+.banner_image {
+    margin-bottom: 50px;
+}
+/* Sign up style start */
+
+
+/* Account styling end */
+
+
 @media screen and (max-width: 1050px) {
     #lang {
         display: none;

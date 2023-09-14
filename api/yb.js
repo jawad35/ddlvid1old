@@ -46,7 +46,7 @@ async function get_signature_function(signature) {
 
 const get_youtube = async (url) => {
     url = url.replace("/shorts/", "/watch?v=");
-
+console.log(url)
     var r, arr, rx = /^.*(?:(?:youtu\.be\/|v\/|vi\/|u\/\w\/|embed\/)|(?:(?:watch)?\?v(?:i)?=|\&v(?:i)?=))([^#\&\?]*).*/;
     arr = url.match(rx);
     if (arr.length > 0) {
