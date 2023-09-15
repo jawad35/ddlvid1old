@@ -121,8 +121,8 @@ const Account = ({ t }) => {
                 <Header />
                 <div id="content">
                     <div id="pageContent" className="container">
-                        <h1>{t('contact_us')}</h1>
-                        <p className="sub_title">{t('meta_description')}</p>
+                        <h1>Login</h1>
+                        {/* <p className="sub_title">{t('meta_description')}</p> */}
 
                         <div className="card">
                             <form onSubmit={async (e) => {
