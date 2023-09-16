@@ -32,7 +32,7 @@ console.log(t)
             window._gaq = window._gaq || [];
             window._gaq.push(['_setAccount', 'UA-162923642-1']);
             window._gaq.push(['_trackPageview']);
-        
+
             (function() {
                 var ga = window.document.createElement('script');
                 ga.type = 'text/javascript';
@@ -51,6 +51,7 @@ console.log(t)
     };
 
     const Login = () => {
+        console.log("------------------ 1: in account.js ----------------")
         if (password?.length < 6) {
            return setError("Password Should be greater than 5 characters.")
         } else {
@@ -61,11 +62,15 @@ console.log(t)
                 setLoading(true);
                 setSuccess(false);
                 setError("");
+                console.log("------------------ 2: in account.js ----------------")
                 axios.post("/login", {
                     email,
                     password
                 }).then(res => {
+                    console.log("------------------ 3: in account.js ----------------")
+
                     if (res.data.success) {
+                        console.log("------------------ 4: in account.js ----------------")
                         console.log(res)
                         setLoading(false);
                         setSuccess(true);
@@ -84,23 +89,29 @@ console.log(t)
                     }
                 })
                 .catch(() => {
+                    console.log("------------------ 5: in account.js ----------------")
+
                     setLoading(false);
                     setError('Please try again later.');
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                 });
             } else {
+                console.log("------------------ 6: in account.js ----------------")
+
                 setLoading(false);
                 setError('Email is invalid.');
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             }
         } else {
+            console.log("------------------ 7: in account.js ----------------")
+
             setLoading(false);
             setError('All fields are required.');
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     };
     const SignUp = () => {
- 
+
         if (name !== '' && signUpEmail !== '' && signUpPassword !== '') {
             if (signUpPassword?.length < 6) {
                 return setError("Password Should be greater than 5 characters.")
@@ -155,7 +166,7 @@ console.log(t)
                 <meta name="twitter:title" content={'DDLVid - ' + t('contact_us')} />
                 <meta name="twitter:description" content={t('meta_description')} />
                 <meta name="twitter:creator" content="@ddl_vid" />
-                <meta name="twitter:image" content="https://ddlvid.com/assets/images/og.png?2" /> 
+                <meta name="twitter:image" content="https://ddlvid.com/assets/images/og.png?2" />
                 <meta property="og:title" content={'DDLVid - ' + t('contact_us')} />
                 <meta property="og:description" content={t('meta_description')} />
                 <meta property="og:image" content="https://ddlvid.com/assets/images/og.png?2" />
@@ -172,7 +183,7 @@ console.log(t)
                 <link rel="alternate" hrefLang="en-pe" href="https://ddlvid.com/contact" />
                 <link rel="alternate" hrefLang="fr" href="https://ddlvid.com/fr/contact" />
                 <link rel="alternate" hrefLang="pt" href="https://ddlvid.com/pt/contact" />
-                <link rel="canonical" href="https://ddlvid.com/contact" />    
+                <link rel="canonical" href="https://ddlvid.com/contact" />
             </Head>
             <main>
                 <Header />
@@ -262,7 +273,7 @@ console.log(t)
                                             <input type="submit" value={t('Sign Up')} className="btn" />
                                         )}
                                     </div>
-                                    <p>Already have an account? <a style={{color:'#0093E9'}} onClick={() => 
+                                    <p>Already have an account? <a style={{color:'#0093E9'}} onClick={() =>
                                     {
                                         if (isSignUpPage) {
                                             setIsSignUpPage(false)
@@ -339,7 +350,7 @@ console.log(t)
                                             <input type="submit" value={t('Login')} className="btn" />
                                         )}
                                     </div>
-                                    <p>Don’t have an account? <a style={{color:'#0093E9'}} onClick={() => 
+                                    <p>Don’t have an account? <a style={{color:'#0093E9'}} onClick={() =>
                                     {
                                         if (isSignUpPage) {
                                             setIsSignUpPage(false)
@@ -355,11 +366,11 @@ console.log(t)
                     </div>
                 </div>
             </main>
-            
+
             <Footer />
 
             <AD2HS />
-            
+
             <style jsx global>{`
                 html,
                 body {
