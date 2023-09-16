@@ -195,7 +195,7 @@ console.log(t)
                         <div className="card">
                            {
                             isSignUpPage ?  <form onSubmit={async (e) => {
-                                // e.preventDefault();
+                                e.preventDefault();
                                 // const token = await recaptchaRef.current.executeAsync();
                                 SignUp();
                             }}>
@@ -284,7 +284,7 @@ console.log(t)
                                     }>Login</a></p>
                                 </div>
                             </form> :  <form onSubmit={async (e) => {
-                                // e.preventDefault();
+                                e.preventDefault();
                                 // const token = await recaptchaRef.current.executeAsync();
                                 // Login(token);
                                 Login()
