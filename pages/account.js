@@ -51,7 +51,6 @@ console.log(t)
     };
 
     const Login = () => {
-        console.log("------------------ 1: in account.js ----------------")
         if (password?.length < 6) {
            return setError("Password Should be greater than 5 characters.")
         } else {
@@ -62,15 +61,12 @@ console.log(t)
                 setLoading(true);
                 setSuccess(false);
                 setError("");
-                console.log("------------------ 2: in account.js ----------------")
                 axios.post("/login", {
                     email,
                     password
                 }).then(res => {
-                    console.log("------------------ 3: in account.js ----------------")
 
                     if (res.data.success) {
-                        console.log("------------------ 4: in account.js ----------------")
                         console.log(res)
                         setLoading(false);
                         setSuccess(true);

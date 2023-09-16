@@ -197,7 +197,6 @@ const transport = nodemailer.createTransport({
 	});
 	// Login Api start
 	server.post("/login", async (req, res) => {
-		console.log("------------------ 1: in server.js ----------------")
 		const { email, password } = req.body;
 		const user = await User.findOne({ email });
 		if (!user) {
