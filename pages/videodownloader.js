@@ -5,10 +5,13 @@ import { Trans } from 'react-i18next';
 import { Router, withTranslation, Link } from '../i18n';
 import {StickyShareButtons} from 'sharethis-reactjs';
 import Head from 'next/head';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import Header from './parts/header';
 import Footer from './parts/footer';
 import AD2HS from './parts/ad2hs';
+import Axios from 'axios';
+import { UserContext } from '../Context';
+import validator from 'validator'
 // import Banner from '../public/assets/images/ddlvid-logo.png'
 const lntobr = (str) => {
   return str.split("\n").map(function(item, i) {
@@ -22,8 +25,29 @@ const VideoDownloader = ({ t }) => {
 
   const [link, setLink] = useState('');
   const [error, setError] = useState(null);
-
-  const submit = (e) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [prices, setPrices] = useState([]);
+  const Navigator = Router
+  const [state, setState] = useContext(UserContext);
+  const CheckURlValidation = () => {
+    if (validator.isURL(link)) {
+      setIsModalOpen(true)
+      setError("")
+    } else {
+      setError("Please Enter a Valid Url")
+    }
+  }
+  const CreateStripeSession = async () => {
+    const { data: response } = await Axios.post(
+      "/session",
+      {
+        priceId: prices.id,
+      }
+    );
+    Navigator.push(response.url)
+    // window.location.href = response.url;
+  };
+  const VideoDownloader = (e) => {
     if (typeof e !== "undefined") {
       e.preventDefault();
     }
@@ -73,8 +97,17 @@ const VideoDownloader = ({ t }) => {
     }
     return false;
   }
+  const fetchPrices = async () => {
+    const { data: response } = await Axios.get(
+      "/prices"
+    );
+    console.log(response?.data[2]);
+    setPrices(response?.data[2]);
+  };
 
+console.log(prices)
   useEffect(() => {
+    fetchPrices()
     if ("twttr" in window) {
       window.twttr.widgets.load();
     }
@@ -179,6 +212,10 @@ const VideoDownloader = ({ t }) => {
   
   return (
     <div className="home">
+          {
+            isModalOpen && <div className='backdrop' onClick={() => setIsModalOpen(false)}></div>
+          }
+
       <Head>
         <title>{t('headline')} - DDLVid</title>
         <meta name="description" content={t('meta_description')} />
@@ -245,7 +282,7 @@ const VideoDownloader = ({ t }) => {
           <div className="section1">
             <div className="container">
               <div className="headline">
-                <img className='banner_image' src={"https://pbs.twimg.com/profile_banners/1248273200406028290/1692801582/1080x360"} alt={"Image Crashed"} style={{ width: '100%', height: 'auto' }} />
+                <img className='banner_image' src={"https://beeimg.com/images/m08014024581.png"} alt={"Image Crashed"} style={{ width: '100%', height: 'auto' }} />
                 <h1>{t('headline')}</h1>
                 <div className="desc">
                   {lntobr(t('sub_headline'))}
@@ -278,7 +315,7 @@ const VideoDownloader = ({ t }) => {
                     property: '5f0be2eb7df6de00133235b5'
                   }}
                 />
-                <form action="/download" method="get" onSubmit={submit}>
+                <div>
                   <div className="field">
                     <input
                       name="link"
@@ -286,18 +323,18 @@ const VideoDownloader = ({ t }) => {
                       placeholder="https://"
                       value={link}
                       onChange={(e) => setLink(e.target.value)}
+                      type='url'
                       pattern="https?://.+"
                       required
-                      aria-label={t('link_to_download')}
                       autoComplete="off"
                       className={(error) ? 'has-error' : null}
                     />
                     <div className="download">
-                      <button type="submit">{t('get_the_video')}</button>
+                      <button onClick={() => CheckURlValidation()}>{t('get_the_video')}</button>
                     </div>
                     {error ? <div className="error_message" onClick={() => setError(null)}>{error}</div> : null}
                   </div>
-                </form>
+                </div>
                 <div className="supported_sites">
                   <span className="site twitter">Twitter</span>{' '}
                   <span className="site facebook">Facebook</span>{' '}
@@ -324,6 +361,58 @@ const VideoDownloader = ({ t }) => {
               </div>
             </div>
           </div>
+         {
+          isModalOpen &&  <div id="emailForm">
+          <span className='close' onClick={() => setIsModalOpen(false)}>x</span>
+          <div className="container checkoutwrapper">
+              <h3>Checkout</h3>
+              <div className='checkout-price'>
+                Join DDLVID <span className='check-price-label'>$3.99</span>/mo
+              </div>
+             <div>
+              <p>Here's what Included</p>
+              <div className='chechout-items'>
+                <div className='c-item'>
+                  - Unlimited High Quality video Downloads
+                </div>
+                <div className='c-item'>
+                  - Unlimited Url Shortens
+                </div>
+                <div className='c-item'>
+                  - Safest Online Community, No Malware or advertise
+                </div>
+                <div className='c-item'>
+                  - Discord Access
+                </div>
+                <div className='c-item'>
+                  - Meme Club Membership
+                </div>
+                <div className='c-item'>
+                  - Twitter and Telegram Bot Usage
+                </div>
+              </div>
+             {/* <p>
+                  <input
+                      type="email"
+                      placeholder="Enter your email address"
+                      // onChange={(e) => setEmail(e.target.value)}
+                  />
+              </p> */}
+              <strong style={{marginTop:'40px'}}>Note:</strong>
+              <div>You must have to login before checkout <Link  href="/account"><a style={{color:'#0093E9'}}>Login!</a></Link></div>
+              <p style={{textAlign: 'center'}}>
+                  <button onClick={() => {
+                    if (state?.data) {
+                      CreateStripeSession()
+                    } else {
+                      Navigator.push('/account')
+                    }
+                  }}>Checkout</button>
+              </p>
+             </div>
+          </div>
+      </div>
+         }
           <div className="section5">
             <div className="container">
               <div className="img" />
@@ -389,7 +478,7 @@ const VideoDownloader = ({ t }) => {
               </div>
             </div>
           </div> */}
-          {/* <div className="section7">
+          <div className="section7">
             <div className="container">
               <h2>{t('download_videos_using_our_bots')}</h2>
               <div className="row">
@@ -421,7 +510,7 @@ const VideoDownloader = ({ t }) => {
                 </div>
               </div>
             </div>
-          </div> */}
+          </div>
           <div className="section8">
             <div className="container">
               <div className="start">

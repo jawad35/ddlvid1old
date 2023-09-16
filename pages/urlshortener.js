@@ -5,10 +5,13 @@ import { Trans } from 'react-i18next';
 import { Router, withTranslation, Link } from '../i18n';
 import {StickyShareButtons} from 'sharethis-reactjs';
 import Head from 'next/head';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import Header from './parts/header';
 import Footer from './parts/footer';
 import AD2HS from './parts/ad2hs';
+import Axios from 'axios';
+import { UserContext } from '../Context';
+import validator from 'validator'
 // import Banner from '../public/assets/images/ddlvid-logo.png'
 const lntobr = (str) => {
   return str.split("\n").map(function(item, i) {
@@ -18,62 +21,77 @@ const lntobr = (str) => {
   }); 
 };
 
-const URLShortener = ({ t }) => {
+const Home = ({ t }) => {
 
   const [link, setLink] = useState('');
   const [error, setError] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [prices, setPrices] = useState([]);
+  const [isShortUrl, setIsShortUrl] = useState(false);
+  const [iscopied, setIsCopied] = useState(false);
+  const [subscriptionData, setSubscriptionData] = useState([]);
 
-  const submit = (e) => {
-    if (typeof e !== "undefined") {
-      e.preventDefault();
-    }
+  const Navigator = Router
+  const [state, setState] = useContext(UserContext);
+ 
+  const CreateStripeSession = async () => {
+    const { data: response } = await Axios.post(
+      "/session",
+      {
+        priceId: prices.id,
+      }
+    );
+    Navigator.push(response.url)
+    // window.location.href = response.url;
+  };
+  const LinkShortener = async (e) => {
     setError(null);
     if (link !== "") {
-      const supported_sites = [
-        "youtube.com",
-        "youtu.be",
-        "twitter.com",
-        "linkedin.com",
-        "facebook.com",
-        "fb.com",
-        "tiktok.com",
-        "vimeo.com",
-        "pornhub.com",
-        "instagram.com",
-        "reddit.com",
-        "pinterest.com",
-        "pin.it",
-        "ok.ru",
-        "periscope.tv",
-        "pscp.tv",
-        "t.co",
-        "fb.watch",
-        "fbwat.ch",
-        "vk.com",
-        "triller.co"
-      ];
-      var supported = false;
-      for (let i = 0; i < supported_sites.length; i++) {
-        if (link.toLowerCase().indexOf(supported_sites[i]) >= 0) {
-          supported = true;
-          break;
-        }      
-      }
-      if (supported) {
-        Router.push({
-          pathname: "/download",
-          query: { link }
-        });
-      } else {
-        setError('Link not supported yet.');
-        window._gaq.push(['_trackEvent', 'notSupported', link]);
-      }
+      const { data: response } = await Axios.post(
+        "/shorturl", {link}
+      );
+console.log(response?.data?.result?.full_short_link)
+      setIsShortUrl(response?.data?.result?.full_short_link)
     } else {
       setError('Link is required.');
     }
     return false;
   }
+  const fetchPrices = async () => {
+    const { data: response } = await Axios.get(
+      "/prices"
+    );
+    console.log(response?.data[2]);
+    setPrices(response?.data[2]);
+  };
+  const fetchSubscriptionData = async () => {
+    const { data: response } = await Axios.get(
+      "/subscription"
+    );
+    setSubscriptionData(response)
+  };
 
+  const CheckURlValidation = () => {
+    if (validator.isURL(link)) {
+      if (state?.data && subscriptionData?.length !==0) {
+        setIsCopied(false)
+        setIsShortUrl(false)
+        LinkShortener()
+      } else {
+        setIsModalOpen(true)
+        setError("")
+      }
+    } else {
+      setError("Please Enter a Valid Url")
+    }
+  }
+  useEffect(() => {
+    if (state?.data) {
+      fetchSubscriptionData()
+      fetchPrices()
+    }
+  }, [state])
+  
   useEffect(() => {
     if ("twttr" in window) {
       window.twttr.widgets.load();
@@ -179,6 +197,10 @@ const URLShortener = ({ t }) => {
   
   return (
     <div className="home">
+          {
+            isModalOpen && <div className='backdrop' onClick={() => setIsModalOpen(false)}></div>
+          }
+
       <Head>
         <title>{t('headline')} - DDLVid</title>
         <meta name="description" content={t('meta_description')} />
@@ -245,10 +267,10 @@ const URLShortener = ({ t }) => {
           <div className="section1">
             <div className="container">
               <div className="headline">
-                <img className='banner_image' src={"https://pbs.twimg.com/profile_banners/1248273200406028290/1692801582/1080x360"} alt={"Image Crashed"} style={{ width: '100%', height: 'auto' }} />
-                <h1>{t('headline')}</h1>
+                <img className='banner_image' src={"https://beeimg.com/images/m08014024581.png"} alt={"Image Crashed"} style={{ width: '100%', height: 'auto' }} />
+                <h1>{t('shortener_headline')}</h1>
                 <div className="desc">
-                  {lntobr(t('sub_headline'))}
+                  {lntobr(t('shortener_sub_headline'))}
                 </div>
                 <StickyShareButtons
                   config={{
@@ -278,7 +300,7 @@ const URLShortener = ({ t }) => {
                     property: '5f0be2eb7df6de00133235b5'
                   }}
                 />
-                <form action="/download" method="get" onSubmit={submit}>
+                <div>
                   <div className="field">
                     <input
                       name="link"
@@ -286,149 +308,124 @@ const URLShortener = ({ t }) => {
                       placeholder="https://"
                       value={link}
                       onChange={(e) => setLink(e.target.value)}
+                      type='url'
                       pattern="https?://.+"
                       required
-                      aria-label={t('link_to_download')}
                       autoComplete="off"
                       className={(error) ? 'has-error' : null}
                     />
                     <div className="download">
-                      <button type="submit">{t('get_the_video')}</button>
+                      <button onClick={() => CheckURlValidation()}>{t('get_url_btn')}</button>
                     </div>
                     {error ? <div className="error_message" onClick={() => setError(null)}>{error}</div> : null}
                   </div>
-                </form>
-                <div className="supported_sites">
-                  <span className="site twitter">Twitter</span>{' '}
-                  <span className="site facebook">Facebook</span>{' '}
-                  <span className="site instagram">Instagram</span>{' '}
-                  <span className="site tiktok">TikTok</span>{' '}
-                  <span className="site youtube">Youtube</span>{' '}
-                  <span className="site reddit">Reddit</span>{' '}
-                  <span className="site pinterest">Pinterest</span>{' '}
-                  <span className="site linkedin">LinkedIn</span>{' '}
-                  <span className="site vimeo">Vimeo</span>
                 </div>
-                <div className="list_supported_sites">
-                  <Link href="/supported-websites"><a>{t('list_supported_websites')}</a></Link>
-                </div>
-
-                {/* <div className="promo" style={{
-                    textAlign: "center",
-                    fontWeight: "bold",
-                    fontSize: "18px",
-                    margin: "20px 0"
-                }}>
-                    <a href="https://go.nordvpn.net/aff_c?offer_id=15&aff_id=87658&source=ddlvid.com" style={{color:"#d73030"}} target="_blank">⚡️🔒 Download with Lightning Speed and Unbreakable Security! Get 59% off NordVPN + 3 extra months! 💪🌐</a>
-                </div> */}
               </div>
             </div>
           </div>
+          {
+            isShortUrl &&   <div className='short_url_section'>
+            <p>Here is your shorten url</p>
+            <p className='shorten_url'>
+              {isShortUrl}
+            </p>
+            <p>
+            <button onClick={() => {
+              navigator.clipboard.writeText(isShortUrl)
+              setIsCopied(true)
+            }}>{iscopied ? "Copied" :"Copy"}</button>
+            </p>
+      </div>
+          }
+        
+         {
+          isModalOpen &&  <div id="emailForm">
+          <span className='close' onClick={() => setIsModalOpen(false)}>x</span>
+          <div className="container checkoutwrapper">
+              <h3>Checkout</h3>
+              <div className='checkout-price'>
+                Join DDLVID <span className='check-price-label'>$3.99</span>/mo
+              </div>
+             <div>
+              <p>Here's what Included</p>
+              <div className='chechout-items'>
+                <div className='c-item'>
+                  - Unlimited High Quality video Downloads
+                </div>
+                <div className='c-item'>
+                  - Unlimited Url Shortens
+                </div>
+                <div className='c-item'>
+                  - Safest Online Community, No Malware or advertise
+                </div>
+                <div className='c-item'>
+                  - Discord Access
+                </div>
+                <div className='c-item'>
+                  - Meme Club Membership
+                </div>
+                <div className='c-item'>
+                  - Twitter and Telegram Bot Usage
+                </div>
+              </div>
+             {/* <p>
+                  <input
+                      type="email"
+                      placeholder="Enter your email address"
+                      // onChange={(e) => setEmail(e.target.value)}
+                  />
+              </p> */}
+              <strong style={{marginTop:'40px'}}>Note:</strong>
+              <div>You must have to login before checkout <Link  href="/account"><a style={{color:'#0093E9'}}>Login!</a></Link></div>
+              <p style={{textAlign: 'center'}}>
+                  <button onClick={() => {
+                    if (state?.data) {
+                      if (state?.data && subscriptionData?.length === 0) {
+                        CreateStripeSession()
+                      } else {
+                          LinkShortener()
+                      }
+                    } else {
+                      Navigator.push('/account')
+                    }
+                  }}>Checkout</button>
+              </p>
+             </div>
+          </div>
+      </div>
+         }
           <div className="section5">
             <div className="container">
               <div className="img" />
-                <h2>{t('best_free_online_video_downloader')}<br/>{t('trusted_by_millions')}</h2>
-                <p>
+                <h2>{t('best_free_online_url_shortener')}<br/>{t('trusted_by_millions')}</h2>
+                {/* <p>
                   {lntobr(t('home_desc'))}
-                </p>
+                </p> */}
             </div>
           </div>
-          {/* <div className="section6 section6_0">
-            <div className="container">
-              <h2>{t('discover_ddlvid')}</h2>
-              <div className="row">
-                <div className="col s6">
-                  <div className="icon videos"></div>
-                  <div className="title">{t('download_videos_from_famous_sites')}</div>
-                </div>
-                <div className="col s6">
-                  <div className="icon youtube"></div>
-                  <div className="title">{t('download_convert_youtube_mp3')}</div>
-                </div>
-              </div>
-              <div className="row">
-                <div className="col s6">
-                  <div className="icon tiktok"></div>
-                  <div className="title">{t('download_tiktok_without_watermark')}</div>
-                </div>
-                <div className="col s6">
-                  <div className="icon stories"></div>
-                  <div className="title">{t('download_facebook_instagram_stories')}</div>
-                </div>
-              </div>
-              <div className="more">
-                {t('and_many_more_to_come')}
-                <div className="big">{t('this_is_just_the_start')}</div>
-              </div>
-            </div>
-          </div> */}
-          {/* <div className="section6 section6_1">
-            <div className="container">
-              <h2>{t('how_to_download_a_video')}</h2>
-              <div className="row">
-                <div className="col s4">
-                  <div className="icon copy"></div>
-                  <p><strong>{t('copy_video_url')}</strong></p>
-                  <p>
-                    <Trans
-                      i18nKey="copy_video_url_details"
-                      components={{ a: <a /> }}
-                    />
-                  </p>
-                </div>
-                <div className="col s4">
-                  <div className="icon paste"></div>
-                  <p><strong>{t('paste_link')}</strong></p>
-                  <p>{t('paste_link_details')}</p>
-                </div>
-                <div className="col s4">
-                  <div className="icon download"></div>
-                  <p><strong>{t('download_the_video')}</strong></p>
-                  <p>{t('download_the_video_details')}</p>
-                </div>
-              </div>
-            </div>
-          </div> */}
-          {/* <div className="section7">
-            <div className="container">
-              <h2>{t('download_videos_using_our_bots')}</h2>
-              <div className="row">
-                <div className="col s6">
-                  <div className="icon twitter"></div>
-                  <div className="details">
-                    <p><strong>{t('twitter_bot')}</strong></p>
-                    <p>
-                      <Trans
-                        i18nKey="twitter_bot_details"
-                        components={{ em: <em /> }}
-                      />
-                    </p>
-                  </div>
-                  <p className="cta"><a href="https://twitter.com/ddl_vid1" target="_blank" className="btn">{t('follow_ddl_vid')}</a></p>
-                </div>
-                <div className="col s6">
-                  <div className="icon telegram"></div>
-                  <div className="details">
-                    <p><strong>{t('telegram_bot')}</strong></p>
-                    <p>
-                      <Trans
-                          i18nKey="telegram_bot_details"
-                          components={{ em: <em /> }}
-                        />
-                    </p>
-                  </div>
-                  <p className="cta"><a href="https://telegram.me/ddlvid_bot" target="_blank" className="btn">{t('send_message_to_ddlvid_bot')}</a></p>
-                </div>
-              </div>
-            </div>
-          </div> */}
+          <div className='blog-article container'>
+          <img src={"https://images.unsplash.com/photo-1517694712202-14dd9538aa97?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"} alt={"Image Crashed"} style={{ width: '100%', height: 'auto' }} />
+          <p className='blog-article-text'>
+          There are a lot of things that are happening in this code. Let me explain to you what this is. First of all, we are sending a GET request using. Then we are converting the response from JSON to JavaScript object. We are doing this because initially our response is in JSON format and we have to convert it into a JavaScript object to be able to use it. So we do that using method. This is what our object looks like after conversion from JSON.
+          <br/>
+          <p style={{margin:'15px 0px'}}>
+          There are a lot of things that are happening in this code. Let me explain to you what this is. First of all, we are sending a GET request using. Then we are converting the response from JSON to JavaScript object. We are doing this because initially our response is in JSON format and we have to convert it into a JavaScript object to be able to use it. So we do that using method. This is what our object looks like after conversion from JSON.
+
+          </p>
+            <br/>
+            Feel free to use the code and do some experiments. Or you can make your own version of the free URL shortener by making changes to the layout or design and maybe adding more functionality to it....
+            </p> 
+            <p style={{textAlign:'center'}}>
+            <button>Read More</button>
+              </p>  
+          </div>
           <div className="section8">
             <div className="container">
               <div className="start">
                 <a className="btn" onClick={() => {
                   window.document.querySelector("#link").focus();
                   window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
-                }}>{t('start_downloading')}</a>
+                }}>{t('start_shortener')}</a>
               </div>
             </div>
           </div>
@@ -459,12 +456,12 @@ const URLShortener = ({ t }) => {
   )
 }
 
-URLShortener.getInitialProps = async () => ({
-  namespacesRequired: ['common'],
+Home.getInitialProps = async () => ({
+  namespacesRequired: ['urlshortener'],
 })
 
-URLShortener.propTypes = {
+Home.propTypes = {
   t: PropTypes.func.isRequired,
 }
 
-export default withTranslation('common')(URLShortener)
+export default withTranslation('urlshortener')(Home)

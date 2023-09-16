@@ -491,6 +491,7 @@ footer {
 }
 .home .section1 .headline .desc {
     font-size: 23px;
+    margin-bottom: 30px;
 }
 .home .section1 .cta {
     position: absolute;
@@ -907,6 +908,7 @@ a.lang {
 }
 .form input[type=text],
 .form input[type=email],
+.form input[type=password],
 .form select,
 .form textarea {
 	font-size: 16px;
@@ -1683,7 +1685,7 @@ a.lang {
     font-size: 20px;
     line-height: 28px;
     color: rgb(255, 255, 255);
-    background-color: rgb(244, 152, 146);
+    /* background-color: rgb(244, 152, 146); */
     padding-top: 10px;
     padding-right: 50px;
     padding-bottom: 10px;
@@ -1753,6 +1755,36 @@ a.lang {
     margin: 0 40px 0 0;
   }
   
+  /* Check Out */
+
+  .checkoutwrapper h3 {
+    text-align: center;
+  }
+  .checkout-price{
+    text-align: center;
+  }
+  .check-price-label{
+    font-weight: 800;
+  }
+  .backdrop{
+    min-width: 100%;
+    min-height: 100%;
+    height: 100vh;
+    background-color: rgba(1, 0, 0, 0.281);
+    opacity: 0.5;
+    position:fixed;
+    z-index: 1000;
+  }
+  /* Check Out */
+
+  .blog-article{
+    margin-bottom: 30px;
+  }
+  .blog-article-text{
+    padding: 10px;
+  }
+ 
+
   @media (max-width: 1024px) {
     .responsive-container-block.Container {
       max-width: 850px;
@@ -1919,7 +1951,16 @@ a.lang {
 
 
 /* Account styling end */
-
+.short_url_section{
+    text-align: center;
+    margin-bottom: 100px;
+}
+.shorten_url{
+    background-color: gainsboro;
+    display: inline;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
 
 @media screen and (max-width: 1050px) {
     #lang {

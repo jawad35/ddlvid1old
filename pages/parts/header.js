@@ -1,13 +1,20 @@
 "use strict";
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
-import { i18n, Link, withTranslation } from '../../i18n';
+import { i18n, Link, withTranslation, Router } from '../../i18n';
+import { UserContext } from '../../Context';
 
 const Header = ({ t }) => {
     const [showMobileMenu, setShowMobileMenu] = useState(false);
     const [theme, setTheme] = useState("light");
-
+    const [state, setState] = useContext(UserContext);
+    
+    const handleLogout = () => {
+        setState({ data: null, loading: false, error: null });
+        localStorage.removeItem("token");
+        Router.push("/");
+      };
     useEffect(() => {
         if (typeof window !== "undefined") {
             if ("theme" in window.localStorage) {
@@ -75,12 +82,6 @@ const Header = ({ t }) => {
                         <li>
                             <Link href="/"><a onClick={() => setShowMobileMenu(false)} title={t('home') + ' - DDLVid'}>{t('home')}</a></Link>
                         </li>
-                        {/* <li>
-                            <Link href="/supported-websites"><a onClick={() => setShowMobileMenu(false)} title={t('supported_websites') + ' - DDLVid'}>{t('supported_websites')}</a></Link>
-                        </li> */}
-                                                <li>
-                            <Link href="/videodownloader"><a onClick={() => setShowMobileMenu(false)} title={t('video_downloader')}>{t('video_downloader')}</a></Link>
-                        </li>
                         <li>
                             <Link href="/urlshortener"><a onClick={() => setShowMobileMenu(false)} title={t('url_shortener')}>{t('url_shortener')}</a></Link>
                         </li>
@@ -90,9 +91,13 @@ const Header = ({ t }) => {
                         <li>
                             <Link href="/contact"><a onClick={() => setShowMobileMenu(false)} title={t('contact_us')}>{t('contact_us')}</a></Link>
                         </li>
-
                         <li>
-                            <Link href="/account"><a onClick={() => setShowMobileMenu(false)} title={t('login')}>{t('login')}</a></Link>
+                            <Link href="/blogs"><a onClick={() => setShowMobileMenu(false)} title={t('blogs')}>{t('blogs')}</a></Link>
+                        </li>
+                        <li>
+                            {
+                                state.data ? <a onClick={() =>  handleLogout()}>Logout</a> : <Link href="/account"><a onClick={() => setShowMobileMenu(false)} title={t('login')}>{t('login')}</a></Link>
+                            }
                         </li>
                         {/* <li>
                             <a href="https://telegram.me/ddlvid_bot" title="DDLVid Telegram Bot" target="_blank">Telegram</a>

@@ -15,11 +15,90 @@ const cluster = require('cluster');
 const toobusy = require('toobusy-js');
 const fs = require('fs');
 const client = require('@mailchimp/mailchimp_marketing');
+const mongoose =require("mongoose");
+require('dotenv').config();
+const cors = require("cors");
+const User = require("./models/user");
+const bcrypt = require("bcryptjs");
+const JWT = require("jsonwebtoken");
+const { body, validationResult } = require("express-validator");
+const Stripe = require("stripe");
 
 client.setConfig({
     apiKey: '5c4289c352a01ce9b43581950532efb3-us21',
     server: 'us21',
 });
+
+// MiddleWare
+
+const checkAuth = async (
+	req,
+	res,
+	next
+  ) => {
+	let token = req.header("authorization");
+
+	if (!token) {
+	  return res.status(403).json({
+		errors: [
+		  {
+			msg: "unauthorized",
+		  },
+		],
+	  });
+	}
+  
+	token = token.split(" ")[1];
+  
+	try {
+	  const user = (await JWT.verify(
+		token,
+		process.env.JWT_SECRET
+	  ));
+  
+	  req.user = user.email;
+	  next();
+	} catch (error) {
+	  return res.status(403).json({
+		errors: [
+		  {
+			msg: "unauthorized",
+		  },
+		],
+	  });
+	}
+  };
+
+  //MiddleWare
+
+// Stripe setup start
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+	apiVersion: "2020-08-27",
+  })
+// Stripe setup end
+
+// MongoDB Connection Opened
+
+mongoose
+  .connect(process.env.MONGO_URI)
+  .then(() => {
+    console.log("Connected to mongodb");
+    const app = express();
+    app.use(express.json());
+    app.use(cors());
+    // app.use("/articles", articlesRoutes);
+
+    app.listen(8080, () => {
+      console.log(`Now listening to port 8080`);
+    });
+  })
+  .catch((error) => {
+    console.log({ error });
+    throw new Error(error);
+  });
+
+
+// MongoDB Connection Closed
 
 const port = parseInt(process.env.PORT, 10) || 4004;
 const dev = process.env.NODE_ENV !== "production";
@@ -42,6 +121,8 @@ if (dev) {
 }
 
 const { downloader } = require("./api/downloader");
+const Subscription = require("./models/subscription");
+const { default: Axios } = require("axios");
 
 const transport = nodemailer.createTransport({
 	host: 'localhost',
@@ -114,7 +195,251 @@ const transport = nodemailer.createTransport({
 			});
 		})
 	});
+	// Login Api start
+	server.post("/login", async (req, res) => {
+		const { email, password } = req.body;
+		const user = await User.findOne({ email });
+		if (!user) {
+		  return res.json({
+			errors: [
+			  {
+				msg: "Invalids credentials",
+			  },
+			],
+			data: null,
+			success:false
+		  });
+		}
+	  
+		const isMatch = await bcrypt.compare(password, user.password);
+	  
+		if (!isMatch) {
+		  return res.json({
+			errors: [
+			  {
+				msg: "Invalids credentials",
+			  },
+			],
+			data: null,
+			success:false
+		  });
+		}
+	  
+		const token = await JWT.sign(
+		  { email: user.email },
+		  process.env.JWT_SECRET,
+		  {
+			expiresIn: 360000,
+		  }
+		);
+	  
+		return res.json({
+		  errors: [],
+		  success:true,
+		  data: {
+			token,
+			user: {
+			  id: user._id,
+			  email: user.email,
+			},
+		  },
+		});
+	  });
+	// Login Api send
 
+
+	//Sign up Api Start
+	server.post(
+		"/signup",
+		// body("email").isEmail().withMessage("The email is invalid"),
+		// body("password").isLength({ min: 5 }).withMessage("The password is invalid"),
+		async (req, res) => {
+		  const validationErrors = validationResult(req);
+	  
+		  if (!validationErrors.isEmpty()) {
+			const errors = validationErrors.array().map((error) => {
+			  return {
+				msg: error.msg,
+			  };
+			});
+	  
+			return res.json({ errors, data: null, success:false });
+		  }
+	  
+		  const { email, password, name } = req.body;
+	  
+		  const user = await User.findOne({ email });
+	  
+		  if (user) {
+			return res.json({
+			  errors: [
+				{
+				  msg: "Email already in use",
+				},
+			  ],
+			  data: null,
+			});
+		  }
+	  
+		  const hashedPassword = await bcrypt.hash(password, 10);
+	  
+		  const customer = await stripe.customers.create(
+			{
+			  email,
+			},
+			{
+			  apiKey: process.env.STRIPE_SECRET_KEY,
+			}
+		  );
+	  
+		  const newUser = await User.create({
+			email,
+			password: hashedPassword,
+			stripeCustomerId: customer.id,
+			name
+		  });
+	  
+		  const token = await JWT.sign(
+			{ email: newUser.email },
+			process.env.JWT_SECRET,
+			{
+			  expiresIn: 360000,
+			}
+		  );
+	  
+		  res.json({
+			errors: [],
+			success:true,
+			data: {
+			  token,
+			  user: {
+				id: newUser._id,
+				email: newUser.email,
+				stripeCustomerId: customer.id,
+				name:newUser.name
+			  },
+			},
+		  });
+		}
+	  );
+
+	// Sign Up Api end
+
+	// me
+	server.get("/me", checkAuth, async (req, res) => {
+		const user = await User.findOne({ email: req.user });
+		return res.json({
+		  errors: [],
+		  success:true,
+		  data: {
+			user: {
+			  id: user._id,
+			  email: user.email,
+			  stripeCustomerId: user.stripeCustomerId,
+			  name:user.name
+			},
+		  },
+		});
+	  });
+
+	// me
+
+	// Stripe Apis start
+
+	server.get("/prices", checkAuth, async (req, res) => {
+		const prices = await stripe.prices.list({
+		  apiKey: process.env.STRIPE_SECRET_KEY,
+		});
+	  
+		return res.json(prices);
+	  });
+	  
+
+
+	  server.post("/session", checkAuth, async (req, res) => {
+		// just for creating subscription data
+		// subscription.create({
+		//   access:"Basic"
+		// })
+		const user = await User.findOne({ email: req.user });
+	   
+		const session = await stripe.checkout.sessions.create(
+		  {
+			mode: "subscription",
+			payment_method_types: ["card"],
+			line_items: [
+			  {
+				price: req.body.priceId,
+				quantity: 1,
+			  },
+			],
+			success_url: `${process.env.BASE_URL}/success`,
+			cancel_url: `${process.env.BASE_URL}/cancel`,
+			customer: user.stripeCustomerId,
+		  },
+		  {
+			apiKey: process.env.STRIPE_SECRET_KEY,
+		  }
+		);
+	  
+		return res.json(session);
+	  });
+	  // Stripe APis end
+
+	  //Subscription data Api start
+	  server.get("/subscription", checkAuth, async (req, res) => {
+		const user = await User.findOne({ email: req.user });
+		const subscriptions = await stripe.subscriptions.list(
+		  {
+			customer: user.stripeCustomerId,
+			status: "all",
+			expand: ["data.default_payment_method"],
+		  },
+		  {
+			apiKey: process.env.STRIPE_SECRET_KEY,
+		  }
+		);
+	  
+		if (!subscriptions.data.length) return res.json([]);
+	  
+		//@ts-ignore
+		const plan = subscriptions.data[0].plan.nickname;
+	  
+		if (plan === "Basic") {
+		  const subscriptiondata = await Subscription.find({ access: "Basic" });
+		  return res.json(subscriptiondata);
+		} else if (plan === "Standard") {
+		  const subscriptiondata = await Subscription.find({
+			access: { $in: ["Basic", "Standard"] },
+		  });
+		  return res.json(subscriptiondata);
+		} else {
+		  const subscriptiondata = await Subscription.find({});
+		  return res.json(subscriptiondata);
+		}
+	  
+		res.json(plan);
+	  });
+	  //Subscription data Api end
+
+	  server.post("/shorturl", checkAuth, async (req, res) => {
+		const {link} = req.body
+		const shorturl = await axios(`https://api.shrtco.de/v2/shorten?url=${link}`);
+		console.log(shorturl?.data)
+		if (shorturl) {
+			res.json({
+				success: true,
+				data: shorturl?.data
+			});
+		} else {
+			res.json({
+				success: false,
+				error: "Something went wrong"
+			});
+		}
+		
+		// return res.json(prices);
+	  });
 	server.get("/redirect", async (req, res) => {
 		if ('url' in req.query) {
 			let url = req.query.url;			

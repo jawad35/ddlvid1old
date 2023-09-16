@@ -39,7 +39,7 @@ const Footer = ({ t }) => {
                     {" "}
                     <Link href="/privacy-policy"><a title={t('privacy_policy') + ' - DDLVid'}>{t('privacy_policy')}</a></Link>
                 </div>
-                <div className="right">
+                {/* <div className="right">
                     <div className="switch_lang">
                         {i18n.language ? (
                             <span className="lang">
@@ -62,7 +62,7 @@ const Footer = ({ t }) => {
                             </a>
                         </div>
                     </div>
-                </div>
+                </div> */}
                 <div className="clear" />
             </div>
             {cookieBannerShow ? (
