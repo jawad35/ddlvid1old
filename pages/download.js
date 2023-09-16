@@ -64,7 +64,7 @@ const Download = ({ t, _loading, _success, _result, _site, link }) => {
                 if (new_link.toLowerCase().indexOf(supported_sites[i]) >= 0) {
                     supported = true;
                     break;
-                }      
+                }
             }
             if (supported) {
                 // window.open('https://dooloust.net/4/4681318', '_blank');
@@ -181,7 +181,7 @@ const Download = ({ t, _loading, _success, _result, _site, link }) => {
                     thumb = data.display_url;
                 }
 
-                if ("is_video" in data && data.is_video) {    
+                if ("is_video" in data && data.is_video) {
                     if ("video_url" in data) {
                         var video_url = data.video_url;
                         video_url = "https://d.ddlvid.com/api/v1/download-video?u=" + encodeURIComponent(video_url) + "&h=" + encodeURIComponent(h(video_url)) + "&t=" + encodeURIComponent(title);
@@ -231,7 +231,7 @@ const Download = ({ t, _loading, _success, _result, _site, link }) => {
             window._gaq = window._gaq || [];
             window._gaq.push(['_setAccount', 'UA-162923642-1']);
             window._gaq.push(['_trackPageview']);
-      
+
             var bounceKiller = {
               trackScrolling: true,
               scrollingPercentageNumber: 25,
@@ -242,29 +242,29 @@ const Download = ({ t, _loading, _success, _result, _site, link }) => {
             };
             window.scrollTrackEnd = false;
             window.ScrollMatrix = new Array();
-      
+
             function TrackingLogTime(a) {
                 return a[0] == 50 ? (parseInt(a[1]) + 1) + ":00" : (a[1] || "0") + ":" + (parseInt(a[0]) + 10)
             }
-      
+
             if (bounceKiller.trackEvents) {
                 function startTimeTracking(a) {
                     window.intervalObj = window.setInterval(function() {
                         a = TrackingLogTime(a.split(":").reverse());
                         window._gaq.push(['_trackEvent', "Time", "LOG", a]);
                     }, bounceKiller.logInterval * 1000)
-      
+
                     if (bounceKiller.trackMaxTime) {
                         window.trackMaxTimeTimeout = setTimeout(function() {
                             clearInterval(window.intervalObj);
                         }, bounceKiller.trackMaxTimeSec * 1000)
                     }
                 }
-                window.document.addEventListener("DOMContentLoaded", function() { 
+                window.document.addEventListener("DOMContentLoaded", function() {
                     startTimeTracking("00");
                 })
             }
-      
+
               if (bounceKiller.trackScrolling) {
                   window.Frequency = bounceKiller.scrollingPercentageNumber;
                   window.Repentance = 100 / bounceKiller.scrollingPercentageNumber;
@@ -274,7 +274,7 @@ const Download = ({ t, _loading, _success, _result, _site, link }) => {
                       window.Frequency = bounceKiller.scrollingPercentageNumber + window.Frequency;
                   }
               };
-      
+
               var scrollFunc = function(){
                 if (bounceKiller.trackScrolling) {
                     if (!window.scrollTrackEnd) {
@@ -285,10 +285,10 @@ const Download = ({ t, _loading, _success, _result, _site, link }) => {
                 if (bounceKiller.trackScrolling) {
                     var body = window.document.body,
                         html = window.document.documentElement;
-      
-                    var documentHeight = Math.max( body.scrollHeight, body.offsetHeight, 
+
+                    var documentHeight = Math.max( body.scrollHeight, body.offsetHeight,
                                     html.clientHeight, html.scrollHeight, html.offsetHeight );
-                                    
+
                     for (var iz = 0; iz < window.ScrollMatrix.length; iz++) {
                         if ((window.scrollY + window.innerHeight >= documentHeight * window.ScrollMatrix[iz][0] / 100) && (window.ScrollMatrix[iz][1] == "false")) {
                             window.ScrollMatrix[iz][1] = "true";
@@ -299,9 +299,9 @@ const Download = ({ t, _loading, _success, _result, _site, link }) => {
                     }
                 }
             }
-      
+
             window.addEventListener('scroll', scrollFunc, true);
-      
+
             (function() {
               var ga = window.document.createElement('script');
               ga.type = 'text/javascript';
@@ -323,7 +323,7 @@ const Download = ({ t, _loading, _success, _result, _site, link }) => {
     //     return () => {
     //         document.body.removeChild(script);
     //     }
-    // }, [link])      
+    // }, [link])
 
     const localDownload = async (url, backup_url, filename, ext) => {
         if (typeof ext === "undefined") {
@@ -389,7 +389,7 @@ const Download = ({ t, _loading, _success, _result, _site, link }) => {
                     <meta name="twitter:title" content="Click Here To Download" />
                     <meta name="twitter:description" content={result.title} />
                     <meta name="twitter:creator" content="@ddl_vid" />
-                    <meta name="twitter:image" content="https://ddlvid.com/icon.png" /> 
+                    <meta name="twitter:image" content="https://ddlvid.com/icon.png" />
                     <meta name="robots" content="noindex" />
                     <meta name="googlebot" content="noindex" />
                 </Head>
@@ -400,7 +400,7 @@ const Download = ({ t, _loading, _success, _result, _site, link }) => {
             )}
 
             <main>
-                
+
                 <Header />
 
                 {loading ? (
@@ -440,36 +440,8 @@ const Download = ({ t, _loading, _success, _result, _site, link }) => {
                                             window.location = link;
                                         }
                                     }}
-                                />                        
+                                />
                                 
-                                {showEmailForm ? (
-                                    <div id="emailForm">
-                                        <span className='close' onClick={() => setShowEmailForm(false)}>x</span>
-                                        <div className="container">
-                                            <h3>Fill in your email for the download. Happy downloading!</h3>
-                                            <p>
-                                                <input
-                                                    type="email"
-                                                    placeholder="Enter your email address"
-                                                    onChange={(e) => setEmail(e.target.value)}
-                                                />
-                                            </p>
-                                            <p style={{textAlign: 'right'}}>
-                                                <button onClick={() => {
-                                                    var validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-                                                    if (email.match(validRegex)) {
-                                                        setLoading(true);
-                                                        Axios.get("/api/subscribe?email=" + encodeURIComponent(email)).then(() => {
-                                                            setLoading(false);
-                                                            setShowEmailForm(false);
-                                                            window.location = redirectLink;
-                                                        })
-                                                    }
-                                                }}>Download</button>
-                                            </p>
-                                        </div>
-                                    </div>
-                                ) : null}
 
                                 <div className="downloadForm">
                                     <div className="container">
@@ -494,7 +466,7 @@ const Download = ({ t, _loading, _success, _result, _site, link }) => {
                                         </form>
                                     </div>
                                 </div>
-                                
+
                             </div>
                         ) : (
                             <div className="card">
@@ -520,9 +492,9 @@ const Download = ({ t, _loading, _success, _result, _site, link }) => {
                 ) : null}
 
             </main>
-            
+
             <Footer />
-            
+
             <AD2HS />
 
             <style jsx global>{`
@@ -565,14 +537,14 @@ Download.getInitialProps = async ({ query, req, res }) => {
         } else if (typeof res !== "undefined") {
             res.redirect('/');
         }
-        return { 
+        return {
             namespacesRequired: ['common'],
             _loading: false,
             success: false
         }
     }
 }
-  
+
 Download.propTypes = {
     t: PropTypes.func.isRequired,
 }
