@@ -47,15 +47,15 @@ const checkAuth = async (
 		],
 	  });
 	}
-  
+
 	token = token.split(" ")[1];
-  
+
 	try {
 	  const user = (await JWT.verify(
 		token,
 		process.env.JWT_SECRET
 	  ));
-  
+
 	  req.user = user.email;
 	  next();
 	} catch (error) {
@@ -88,9 +88,9 @@ mongoose
     app.use(cors());
     // app.use("/articles", articlesRoutes);
 
-    app.listen(8080, () => {
-      console.log(`Now listening to port 8080`);
-    });
+    // app.listen(8080, () => {
+    //   console.log(`Now listening to port 8080`);
+    // });
   })
   .catch((error) => {
     console.log({ error });
@@ -135,7 +135,7 @@ const transport = nodemailer.createTransport({
 
 	await nextI18next.initPromise;
 	server.use(nextI18NextMiddleware(nextI18next));
-	  
+
 	server.disable('x-powered-by');
 	server.use(helmet.dnsPrefetchControl());
 	server.use(helmet.expectCt());
@@ -181,7 +181,7 @@ const transport = nodemailer.createTransport({
 	}
 
 	server.get("/api/subscribe", cache(10), async (req, res) => {
-		let email = req.query.email;	
+		let email = req.query.email;
 		client.lists.addListMember('27cfb10f62', {
 			email_address: email,
 			status: 'subscribed',
@@ -210,9 +210,9 @@ const transport = nodemailer.createTransport({
 			success:false
 		  });
 		}
-	  
+
 		const isMatch = await bcrypt.compare(password, user.password);
-	  
+
 		if (!isMatch) {
 		  return res.json({
 			errors: [
@@ -224,7 +224,7 @@ const transport = nodemailer.createTransport({
 			success:false
 		  });
 		}
-	  
+
 		const token = await JWT.sign(
 		  { email: user.email },
 		  process.env.JWT_SECRET,
@@ -232,7 +232,7 @@ const transport = nodemailer.createTransport({
 			expiresIn: 360000,
 		  }
 		);
-	  
+
 		return res.json({
 		  errors: [],
 		  success:true,
@@ -255,21 +255,21 @@ const transport = nodemailer.createTransport({
 		// body("password").isLength({ min: 5 }).withMessage("The password is invalid"),
 		async (req, res) => {
 		  const validationErrors = validationResult(req);
-	  
+
 		  if (!validationErrors.isEmpty()) {
 			const errors = validationErrors.array().map((error) => {
 			  return {
 				msg: error.msg,
 			  };
 			});
-	  
+
 			return res.json({ errors, data: null, success:false });
 		  }
-	  
+
 		  const { email, password, name } = req.body;
-	  
+
 		  const user = await User.findOne({ email });
-	  
+
 		  if (user) {
 			return res.json({
 			  errors: [
@@ -280,9 +280,9 @@ const transport = nodemailer.createTransport({
 			  data: null,
 			});
 		  }
-	  
+
 		  const hashedPassword = await bcrypt.hash(password, 10);
-	  
+
 		  const customer = await stripe.customers.create(
 			{
 			  email,
@@ -291,14 +291,14 @@ const transport = nodemailer.createTransport({
 			  apiKey: process.env.STRIPE_SECRET_KEY,
 			}
 		  );
-	  
+
 		  const newUser = await User.create({
 			email,
 			password: hashedPassword,
 			stripeCustomerId: customer.id,
 			name
 		  });
-	  
+
 		  const token = await JWT.sign(
 			{ email: newUser.email },
 			process.env.JWT_SECRET,
@@ -306,7 +306,7 @@ const transport = nodemailer.createTransport({
 			  expiresIn: 360000,
 			}
 		  );
-	  
+
 		  res.json({
 			errors: [],
 			success:true,
@@ -350,10 +350,10 @@ const transport = nodemailer.createTransport({
 		const prices = await stripe.prices.list({
 		  apiKey: process.env.STRIPE_SECRET_KEY,
 		});
-	  
+
 		return res.json(prices);
 	  });
-	  
+
 
 
 	  server.post("/session", checkAuth, async (req, res) => {
@@ -362,7 +362,7 @@ const transport = nodemailer.createTransport({
 		//   access:"Basic"
 		// })
 		const user = await User.findOne({ email: req.user });
-	   
+
 		const session = await stripe.checkout.sessions.create(
 		  {
 			mode: "subscription",
@@ -381,7 +381,7 @@ const transport = nodemailer.createTransport({
 			apiKey: process.env.STRIPE_SECRET_KEY,
 		  }
 		);
-	  
+
 		return res.json(session);
 	  });
 	  // Stripe APis end
@@ -399,12 +399,12 @@ const transport = nodemailer.createTransport({
 			apiKey: process.env.STRIPE_SECRET_KEY,
 		  }
 		);
-	  
+
 		if (!subscriptions.data.length) return res.json([]);
-	  
+
 		//@ts-ignore
 		const plan = subscriptions.data[0].plan.nickname;
-	  
+
 		if (plan === "Basic") {
 		  const subscriptiondata = await Subscription.find({ access: "Basic" });
 		  return res.json(subscriptiondata);
@@ -417,7 +417,7 @@ const transport = nodemailer.createTransport({
 		  const subscriptiondata = await Subscription.find({});
 		  return res.json(subscriptiondata);
 		}
-	  
+
 		res.json(plan);
 	  });
 	  //Subscription data Api end
@@ -437,12 +437,12 @@ const transport = nodemailer.createTransport({
 				error: "Something went wrong"
 			});
 		}
-		
+
 		// return res.json(prices);
 	  });
 	server.get("/redirect", async (req, res) => {
 		if ('url' in req.query) {
-			let url = req.query.url;			
+			let url = req.query.url;
 			res.redirect(301, url);
 		} else {
 			res.send({
@@ -455,7 +455,7 @@ const transport = nodemailer.createTransport({
 	server.get("/api/v1/download", cache(10), async (req, res) => {
 		const { h } = require('./hashMe');
 		if ('url' in req.query) {
-			let url = req.query.url;			
+			let url = req.query.url;
 			let err = false;
 			if ('h' in req.query) {
 				if (req.query.h !== 'backend-api-direct') {
@@ -565,7 +565,7 @@ const transport = nodemailer.createTransport({
 									url: video_url,
 									type: 'video'
 								});
-							} 
+							}
 							if (!video.is_video) {
 								var video_url = video.display_url;
 								video_url = "https://d.ddlvid.com/api/v1/download-image?u=" + encodeURIComponent(video_url) + "&h=" + encodeURIComponent(h(video_url)) + "&t=" + encodeURIComponent(username + " instagram story");
@@ -619,7 +619,7 @@ const transport = nodemailer.createTransport({
 			if (filename === "") {
 				filename = (new Date()).getTime();
 			}
-			
+
 			if (url !== "") {
 				res.contentType('video/mp4');
 				res.attachment("DDLVID.com - " + filename + ".mp4");
@@ -741,7 +741,7 @@ const transport = nodemailer.createTransport({
 				} else {
 					resolve(null);
 				}
-			});      
+			});
 		});
 	};
 
@@ -751,11 +751,11 @@ const transport = nodemailer.createTransport({
 				if (err) throw err;
 				data = data.replace(/\n/g, '');
 				resolve(data);
-			});      
+			});
 		});
 	};
 
-	server.get("/api/v1/youtube-mp4", async (req, res) => {	
+	server.get("/api/v1/youtube-mp4", async (req, res) => {
 		try {
 			const { h } = require('./hashMe');
 			if ('u' in req.query) {
@@ -828,7 +828,7 @@ const transport = nodemailer.createTransport({
 
 			const url = req.query.u;
 			const title = req.query.t;
-			
+
 			if (url && title && url !== "" && title !== "") {
 				try {
 					const resp = await axios({
@@ -871,7 +871,7 @@ const transport = nodemailer.createTransport({
 				res.send("<h1>Forbidden.</h1>");
 				return false;
 			}
-		
+
 			const ffmpeg = require('fluent-ffmpeg');
 
 			const title = req.query.t;
@@ -909,7 +909,7 @@ const transport = nodemailer.createTransport({
 					.on('error', function (err) {
 						if (timeout) clearTimeout(timeout);
 					})
-					.pipe(res, { end: true }); 
+					.pipe(res, { end: true });
 			} else if (video.indexOf("https://v.redd.it/") >= 0) {
 				res.contentType('video/mp4');
 				var regex = /redd.it\/(.*?)\//i;
@@ -919,7 +919,7 @@ const transport = nodemailer.createTransport({
 					vid = match[1];
 				}
 				res.attachment("DDLVID.COM - " + vid + ".mp4");
-				
+
 				const resp = await axios({
 					url: video,
 					responseType: 'stream'
@@ -985,7 +985,7 @@ const transport = nodemailer.createTransport({
 					.on('error', function (err) {
 						if (timeout) clearTimeout(timeout);
 					})
-					.pipe(res, { end: true }); 
+					.pipe(res, { end: true });
 			} else {
 				res.send({ success: false })
 			}
@@ -1042,20 +1042,20 @@ const transport = nodemailer.createTransport({
 				];
 				const r = await Promise.all(p);
 				var response = r[0].data;
-				
+
 				if ("content-type" in response.headers) {
 					const contentType = response.headers["content-type"];
 					if (contentType.indexOf("image") >= 0 || contentType.indexOf("video") >= 0) {
 						return response.pipe(res)
 					}
-				} 
-								
+				}
+
 			} catch(error) {
 				console.log(error)
 			}
 
 		}
-		
+
 		res.sendFile(path.join(__dirname, 'public/icon.png'));
 	});
 
@@ -1115,7 +1115,7 @@ IP: ${req.ip}
 	server.get("/sw.js", (req, res) => {
 		res.sendFile(path.join(__dirname, "public", 'sw.js'));
 	});
-	
+
 	server.get("/ads.txt", (req, res) => {
 		res.sendFile(path.join(__dirname, 'ads.txt'));
 	});
