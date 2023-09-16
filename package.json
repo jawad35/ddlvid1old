@@ -4,7 +4,7 @@
   "scripts": {
     "dev": "nodemon server.js",
     "build": "next build",
-    "start": "NODE_ENV=production node --max-old-space-size=200 --max_old_space_size=200 server.js",
+    "start": "NODE_ENV=production PORT=3001 node --max-old-space-size=200 --max_old_space_size=200 server.js",
     "test-api": "mocha --timeout 10000"
   },
   "dependencies": {
