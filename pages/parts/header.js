@@ -58,7 +58,6 @@ const Header = ({ t }) => {
                 <div id="logo">
                     <Link href="/">
                         <a className="logo" title={t('headline')}>
-                            DDLVid
                         </a>
                     </Link>
                 </div>

@@ -64,39 +64,24 @@ const About = ({ t }) => {
                         <h1>{AboutUsJson.about_us}</h1>
                         <p className="sub_title">{AboutUsJson.meta_description}</p>
                     </div>
-                    <div className="responsive-container-block bigContainer">
+                    <div className="responsive-container-block bigContainer card">
   <div className="responsive-container-block Container">
-    <img className="mainImg" src="https://workik-widget-assets.s3.amazonaws.com/widget-assets/images/eaboutus1.svg" />
     <div className="allText aboveText">
       <p className="text-blk headingText">
-        Our Mission
-      </p>
-      <p className="text-blk subHeadingText">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        Welcome to DDLVid.com!
       </p>
       <p className="text-blk description">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fermentum pulvinar ullamcorper suspendisse ac eget. Pellentesque tempus leo in ullamcorper quis vestibulum ligula elementum ut.
-      </p>
-      <button className="explore">
-        Explore
-      </button>
-    </div>
-  </div>
-  <div className="responsive-container-block Container bottomContainer">
-    <img className="mainImg" src="https://workik-widget-assets.s3.amazonaws.com/widget-assets/images/xpraup2.svg" />
-    <div className="allText bottomText">
-      <p className="text-blk headingText">
-        Our Vision
-      </p>
-      <p className="text-blk subHeadingText">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        We are a team of developers who love platforms like X (Twitter). Youtube, Tiktok and we know the importance of being able to SAFELY download videos from latforms without the worry of malwares and viruses being placed on your computer, that's why we created the DDLVid Downloader!
       </p>
       <p className="text-blk description">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fermentum pulvinar ullamcorper suspendisse ac eget. Pellentesque tempus leo in ullamcorper quis vestibulum ligula elementum ut.
+      3 years on from the site being created and we have safely downloaded millions of videos for our users across the World & introduced our Twitter & Telegram bots to make the downloading process even easier.
       </p>
-      <button className="explore">
-        Explore
-      </button>
+      <p className="text-blk description">
+      As we progress into an online SAAS tools website we have now introduced our URL link shortening service & we still have some great tools & AI features up our sleeves.
+      </p>
+      <p className="text-blk description">
+      Thanks for trusting us, the World's safest video downloader service.
+      </p>
     </div>
   </div>
 </div>

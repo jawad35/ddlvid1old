@@ -12,7 +12,7 @@ import AD2HS from './parts/ad2hs';
 import Axios from 'axios';
 import { UserContext } from '../Context';
 import validator from 'validator'
-// import Banner from '../public/assets/images/ddlvid-logo.png'
+// import Banner from '../public/assets/images/ddlvide-new-logo.png'
 const lntobr = (str) => {
   return str.split("\n").map(function(item, i) {
     return (
@@ -96,8 +96,8 @@ const Home = ({ t }) => {
     const { data: response } = await Axios.get(
       "/prices"
     );
-    console.log(response?.data[2]);
-    setPrices(response?.data[2]);
+    console.log(response?.data[0]);
+    setPrices(response?.data[0]);
   };
   const fetchSubscriptionData = async () => {
     const { data: response } = await Axios.get(
@@ -299,7 +299,7 @@ const Home = ({ t }) => {
           <div className="section1">
             <div className="container">
               <div className="headline">
-                <img className='banner_image' src={"https://beeimg.com/images/m08014024581.png"} alt={"Image Crashed"} style={{ width: '100%', height: 'auto' }} />
+                <img className='banner_image' src={"/assets/images/main-ddlvid-banner.jpeg"} alt={"Image Crashed"} style={{ width: '100%', height: 'auto' }} />
                 <h1>{t('headline')}</h1>
                 <div className="desc">
                   {lntobr(t('sub_headline'))}
@@ -500,15 +500,16 @@ const Home = ({ t }) => {
             </div>
           </div> */}
            <div className='blog-article container'>
-          <img src={"https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"} alt={"Image Crashed"} style={{ width: '100%', height: 'auto' }} />
+          <img src={"/assets/images/ddlvide-image.jpeg"} alt={"Image Crashed"} style={{ width: '100%', height: 'auto' }} />
           <p className='blog-article-text'>
-          There are a lot of things that are happening in this code. Let me explain to you what this is. First of all, we are sending a GET request using. Then we are converting the response from JSON to JavaScript object. We are doing this because initially our response is in JSON format and we have to convert it into a JavaScript object to be able to use it. So we do that using method. This is what our object looks like after conversion from JSON.
+          DDLVid is an online web app to download videos from famous sites and social networks like Facebook, Twitter, TikTok, Youtube and more
           <br/>
           <p style={{margin:'15px 0px'}}>
-          There are a lot of things that are happening in this code. Let me explain to you what this is. First of all, we are sending a GET request using. Then we are converting the response from JSON to JavaScript object. We are doing this because initially our response is in JSON format and we have to convert it into a JavaScript object to be able to use it. So we do that using method. This is what our object looks like after conversion from JSON.
+          Today it's so easy to upload videos online, there is so many popular websites that offer video uploading like Youtube, Facebook or Twitter. Downloading these videos is sometimes not easy and impossible, that's why we created DDLVid video downloader.
           </p>
             <br/>
-            Feel free to use the code and do some experiments. Or you can make your own version of the free URL shortener by making changes to the layout or design and maybe adding more functionality to it....
+            DDLVid can download videos from popular websites and convert videos to mp3 like Youtube links.
+DDLVid can also download videos without watermark and get the original uploaded video file.
             </p> 
             <p style={{textAlign:'center'}}>
             <button>Read More</button>

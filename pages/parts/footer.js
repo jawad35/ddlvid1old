@@ -35,9 +35,11 @@ const Footer = ({ t }) => {
         <div id="footer">
             <div className="container">
                 <div className="copy">
+                    <img src='/assets/images/ddlvide-new-logo.png' />
                     Copyright &copy; DDLVid {new Date().getFullYear()}. {t('all_rights_reserved')}.
                     {" "}
                     <Link href="/privacy-policy"><a title={t('privacy_policy') + ' - DDLVid'}>{t('privacy_policy')}</a></Link>
+                   
                 </div>
                 {/* <div className="right">
                     <div className="switch_lang">

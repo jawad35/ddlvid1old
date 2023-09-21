@@ -152,7 +152,7 @@ a:hover {
 }
 #logo a {
     color: #000;
-    background: url(/assets/images/ddlvid-logo.png) no-repeat;
+    background: url(/assets/images/ddlvide-new-logo.png) no-repeat;
     background-size: contain;
     width: 140px;
     height: 40px;
@@ -429,7 +429,7 @@ footer {
     display: flex;
 }
 .ad2hs-prompt button {
-    background: url(/assets/images/ddlvid-logo.png) no-repeat left center;
+    background: url(/assets/images/ddlvide-new-logo.png) no-repeat left center;
     background-size: 24px;
     flex: 1;
     color: #000;
@@ -656,11 +656,15 @@ footer {
     font-size: 14px;
 }
 #footer .copy {
-    background: url(/assets/images/ddlvid-logo.png) no-repeat;
     background-size: 40px;
     padding-left: 60px;
     line-height: 40px;
     float: left;
+    display: flex;
+    align-items: center;
+}
+#footer .copy img {
+width: 100px;
 }
 #footer .right {
     line-height: 40px;
@@ -780,7 +784,7 @@ a.lang {
     filter: invert(1);
 }
 .generic {
-    background-image: url(/assets/images/ddlvid-logo.png);
+    background-image: url(/assets/images/ddlvide-new-logo.png);
 }
 .reddit {
     background-image: url(/assets/images/social/reddit.svg?1);
@@ -1648,7 +1652,7 @@ a.lang {
     margin-right: 0px;
     margin-bottom: 0px;
     margin-left: 40px;
-    width: 40%;
+    /* width: 40%; */
     margin: 0 0 0 0;
   }
   
@@ -1668,12 +1672,12 @@ a.lang {
   }
   
   .text-blk.description {
-    font-size: 25px;
+    font-size: 18px;
     line-height: 34px;
     color: rgb(102, 102, 102);
     margin-top: 0px;
     margin-right: 0px;
-    margin-bottom: 50px;
+    margin-bottom: 20px;
     margin-left: 0px;
     padding-top: 0px;
     padding-right: 10px;
@@ -1796,11 +1800,11 @@ a.lang {
     }
   
     .text-blk.description {
-      font-size: 20px;
+      font-size: 15px;
     }
   
     .allText {
-      width: 40%;
+      /* width: 40%; */
       margin-top: 0px;
       margin-right: 0px;
       margin-bottom: 0px;
@@ -1872,7 +1876,7 @@ a.lang {
   
     .text-blk.description {
       text-align: center;
-      font-size: 25px;
+      font-size: 15px;
     }
   
     .allText {
@@ -1929,7 +1933,7 @@ a.lang {
     }
   
     .text-blk.description {
-      font-size: 25px;
+      font-size: 15px;
       padding-top: 0px;
       padding-right: 0px;
       padding-bottom: 0px;

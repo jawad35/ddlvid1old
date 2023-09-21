@@ -12,7 +12,7 @@ import AD2HS from './parts/ad2hs';
 import Axios from 'axios';
 import { UserContext } from '../Context';
 import validator from 'validator'
-// import Banner from '../public/assets/images/ddlvid-logo.png'
+// import Banner from '../public/assets/images/ddlvide-new-logo.png'
 const lntobr = (str) => {
   return str.split("\n").map(function(item, i) {
     return (
@@ -36,7 +36,7 @@ const Home = ({ t }) => {
  
   const CreateStripeSession = async () => {
     const { data: response } = await Axios.post(
-      "/session",
+      "",
       {
         priceId: prices.id,
       }
@@ -267,7 +267,7 @@ console.log(response?.data?.result?.full_short_link)
           <div className="section1">
             <div className="container">
               <div className="headline">
-                <img className='banner_image' src={"https://beeimg.com/images/m08014024581.png"} alt={"Image Crashed"} style={{ width: '100%', height: 'auto' }} />
+                <img className='banner_image' src={"/assets/images/main-ddlvid-banner.jpeg"} alt={"Image Crashed"} style={{ width: '100%', height: 'auto' }} />
                 <h1>{t('shortener_headline')}</h1>
                 <div className="desc">
                   {lntobr(t('shortener_sub_headline'))}
@@ -397,24 +397,21 @@ console.log(response?.data?.result?.full_short_link)
           <div className="section5">
             <div className="container">
               <div className="img" />
-                <h2>{t('best_free_online_url_shortener')}<br/>{t('trusted_by_millions')}</h2>
-                {/* <p>
-                  {lntobr(t('home_desc'))}
-                </p> */}
+                <h2>{t('best_free_online_url_shortener')}</h2>
+                <p>
+                  {lntobr(t('url_shorten_des'))}
+                </p>
             </div>
           </div>
           <div className='blog-article container'>
-          <img src={"https://images.unsplash.com/photo-1517694712202-14dd9538aa97?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"} alt={"Image Crashed"} style={{ width: '100%', height: 'auto' }} />
+          <img src={"/assets/images/ddlvide-image.jpeg"} alt={"Image Crashed"} style={{ width: '100%', height: 'auto' }} />
           <p className='blog-article-text'>
-          There are a lot of things that are happening in this code. Let me explain to you what this is. First of all, we are sending a GET request using. Then we are converting the response from JSON to JavaScript object. We are doing this because initially our response is in JSON format and we have to convert it into a JavaScript object to be able to use it. So we do that using method. This is what our object looks like after conversion from JSON.
+          We are adding services to The World's Best Video Downloader & created the safest URL shortener on the planet, no Malware or spam adverts on your computer for your total peace of mind!
           <br/>
           <p style={{margin:'15px 0px'}}>
-          There are a lot of things that are happening in this code. Let me explain to you what this is. First of all, we are sending a GET request using. Then we are converting the response from JSON to JavaScript object. We are doing this because initially our response is in JSON format and we have to convert it into a JavaScript object to be able to use it. So we do that using method. This is what our object looks like after conversion from JSON.
-
+          We have safely been offering SAAS tools to our millions of users for over 3 years now so, jump on in & join the DDLVid community now! please insert banner and image same as on every page!
           </p>
-            <br/>
-            Feel free to use the code and do some experiments. Or you can make your own version of the free URL shortener by making changes to the layout or design and maybe adding more functionality to it....
-            </p> 
+          </p>
             <p style={{textAlign:'center'}}>
             <button>Read More</button>
               </p>  

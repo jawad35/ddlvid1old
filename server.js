@@ -357,8 +357,8 @@ const transport = nodemailer.createTransport({
 
 
 	  server.post("/session", checkAuth, async (req, res) => {
-		// just for creating subscription data
-		// subscription.create({
+		// just for creating subscription data it is compulsory to create one item in database
+		// Subscription.create({
 		//   access:"Basic"
 		// })
 		const user = await User.findOne({ email: req.user });

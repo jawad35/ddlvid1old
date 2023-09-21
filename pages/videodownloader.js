@@ -12,7 +12,7 @@ import AD2HS from './parts/ad2hs';
 import Axios from 'axios';
 import { UserContext } from '../Context';
 import validator from 'validator'
-// import Banner from '../public/assets/images/ddlvid-logo.png'
+// import Banner from '../public/assets/images/ddlvide-new-logo.png'
 const lntobr = (str) => {
   return str.split("\n").map(function(item, i) {
     return (
@@ -282,7 +282,7 @@ console.log(prices)
           <div className="section1">
             <div className="container">
               <div className="headline">
-                <img className='banner_image' src={"https://beeimg.com/images/m08014024581.png"} alt={"Image Crashed"} style={{ width: '100%', height: 'auto' }} />
+                <img className='banner_image' src={"/assets/images/main-ddlvid-banner.jpeg"} alt={"Image Crashed"} style={{ width: '100%', height: 'auto' }} />
                 <h1>{t('headline')}</h1>
                 <div className="desc">
                   {lntobr(t('sub_headline'))}
