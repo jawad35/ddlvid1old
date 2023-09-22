@@ -425,7 +425,6 @@ const transport = nodemailer.createTransport({
 	  server.post("/shorturl", checkAuth, async (req, res) => {
 		const {link} = req.body
 		const shorturl = await axios(`https://api.shrtco.de/v2/shorten?url=${link}`);
-		console.log(shorturl?.data)
 		if (shorturl) {
 			res.json({
 				success: true,
@@ -1163,11 +1162,11 @@ IP: ${req.ip}
 			cluster.fork();
 		}
 		cluster.on('online', function(worker) {
-			console.log('Worker ' + worker.process.pid + ' is online');
+			// console.log('Worker ' + worker.process.pid + ' is online');
 		});
 		cluster.on('exit', function(worker, code, signal) {
-			console.log('Worker ' + worker.process.pid + ' died with code: ' + code + ', and signal: ' + signal);
-			console.log('Starting a new worker');
+			// console.log('Worker ' + worker.process.pid + ' died with code: ' + code + ', and signal: ' + signal);
+			// console.log('Starting a new worker');
 			cluster.fork();
 		});
 

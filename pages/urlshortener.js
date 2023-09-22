@@ -11,7 +11,8 @@ import Footer from './parts/footer';
 import AD2HS from './parts/ad2hs';
 import Axios from 'axios';
 import { UserContext } from '../Context';
-import validator from 'validator'
+import validator from 'validator';
+import Copy from "copy-to-clipboard";
 // import Banner from '../public/assets/images/ddlvide-new-logo.png'
 const lntobr = (str) => {
   return str.split("\n").map(function(item, i) {
@@ -331,7 +332,7 @@ console.log(response?.data?.result?.full_short_link)
             </p>
             <p>
             <button onClick={() => {
-              navigator.clipboard.writeText(isShortUrl)
+              Copy(isShortUrl)
               setIsCopied(true)
             }}>{iscopied ? "Copied" :"Copy"}</button>
             </p>

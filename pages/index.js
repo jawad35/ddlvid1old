@@ -96,7 +96,6 @@ const Home = ({ t }) => {
     const { data: response } = await Axios.get(
       "/prices"
     );
-    console.log(response?.data[0]);
     setPrices(response?.data[0]);
   };
   const fetchSubscriptionData = async () => {
