@@ -95,7 +95,7 @@ const Header = ({ t }) => {
                         </li>
                         <li>
                             {
-                                state.data ? <a onClick={() =>  handleLogout()}>Logout</a> : <Link href="/account"><a onClick={() => setShowMobileMenu(false)} title={t('login')}>{t('login')}</a></Link>
+                                state.data ? <a onClick={() =>  handleLogout()}>Logout</a> : <Link href="/login"><a onClick={() => setShowMobileMenu(false)} title={t('login')}>{t('login')}</a></Link>
                             }
                         </li>
                         {/* <li>

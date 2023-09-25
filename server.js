@@ -115,18 +115,24 @@ fs.readFile("./banned.txt", 'utf8', function(err, data) {
 });
 
 if (dev) {
-	module.exports.api_url = "http://localhost:4004";
+	module.exports.api_url = "http://localhost:3001";
 } else {
 	module.exports.api_url = "https://d.ddlvid.com";
 }
 
 const { downloader } = require("./api/downloader");
 const Subscription = require("./models/subscription");
-const { default: Axios } = require("axios");
+const { handleGenerateNewShortURL } = require("./controllers/urlshortenerController");
+const URLShorten = require("./models/urlshorten");
+const { AllMediaDownloader } = require("./api/allmediadownloader");
 
 const transport = nodemailer.createTransport({
-	host: 'localhost',
-	port: 25,
+    host: 'smtp.ethereal.email',
+    port: 587,
+	auth: {
+        user: 'isom14@ethereal.email',
+        pass: 'bczEqbhE2jWQShcSd1'
+    }
 });
 
 (async () => {
@@ -422,13 +428,27 @@ const transport = nodemailer.createTransport({
 	  });
 	  //Subscription data Api end
 
-	  server.post("/shorturl", checkAuth, async (req, res) => {
-		const {link} = req.body
-		const shorturl = await axios(`https://api.shrtco.de/v2/shorten?url=${link}`);
-		if (shorturl) {
+	  //Shorten url api
+	  server.post("/shorturl", handleGenerateNewShortURL);
+// server.get("/analytics/:shortId", handleGetAnalytics);
+	  
+
+	  // Video Downloader using RapidApi start
+	  
+	  server.post("/videodownload", async (req, res) => {
+		console.log(req.body)
+		const {link, socialName} = req?.body
+		const ApiResponse = await AllMediaDownloader(link, socialName)
+		console.log(ApiResponse, "res")
+		// if (ApiResponse?.data?.result?.url){
+
+		// }
+		// const shorturl = await axios(`https://api.shrtco.de/v2/shorten?url=${link}`);
+		if (ApiResponse) {
 			res.json({
 				success: true,
-				data: shorturl?.data
+				data: ApiResponse,
+				url:ApiResponse?.result?.url
 			});
 		} else {
 			res.json({
@@ -439,6 +459,7 @@ const transport = nodemailer.createTransport({
 
 		// return res.json(prices);
 	  });
+	  // Video Downloader using RapidApi end
 	server.get("/redirect", async (req, res) => {
 		if ('url' in req.query) {
 			let url = req.query.url;
@@ -1068,25 +1089,10 @@ const transport = nodemailer.createTransport({
 
 	server.post("/api/v1/send_message", async (req, res) => {
 		const contact = req.body;
-		if ("name" in contact && "email" in contact && "subject" in contact && "message" in contact && "token" in contact) {
-			const token = contact.token;
-			const RECAPTCHA_SECRET = "6LfMW7sZAAAAAFzPl5kWDXrePq1jWJ90R6xvXwJA";
-			var recaptcha_url = "https://www.google.com/recaptcha/api/siteverify?";
-			recaptcha_url += "secret=" + RECAPTCHA_SECRET + "&";
-			recaptcha_url += "response=" + token + "&";
-			recaptcha_url += "remoteip=" + req.ip;
-			const r = await axios.get(recaptcha_url);
-			if (!r.data.success) {
-				res.send(JSON.stringify({
-					success: false,
-					error: "Captcha validation failed"
-				}));
-				return false;
-			}
-
+		if ("name" in contact && "email" in contact && "subject" in contact && "message" in contact) {
 			const message = {
 				from: 'noreply@ddlvid.com',
-				to: 'contact@aimadnet.com',
+				to: 'jaqimughal@gmail.com',
 				subject: 'You have a new DDLVid Message',
 				text: `
 Name: ${contact.name}

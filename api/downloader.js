@@ -59,6 +59,7 @@ const downloader = async (url) => {
         }
     }
     if (purl.hostname === "instagram.com") {
+        console.log("YEs Insta")
         var arr = url.replace("https://","").replace("http://","").split("?");
         var r = [];
         arr = arr[0].split("/");
@@ -79,6 +80,7 @@ const downloader = async (url) => {
         }
     }
     if (purl.hostname === "tiktok.com") {
+        console.log("YEs Tiktok")
         video = await tiktok.get_tiktok(url);
         video.site = "tiktok";
     }

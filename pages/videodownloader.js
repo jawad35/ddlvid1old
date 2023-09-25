@@ -399,13 +399,13 @@ console.log(prices)
                   />
               </p> */}
               <strong style={{marginTop:'40px'}}>Note:</strong>
-              <div>You must have to login before checkout <Link  href="/account"><a style={{color:'#0093E9'}}>Login!</a></Link></div>
+              <div>You must have to login before checkout <Link  href="/login"><a style={{color:'#0093E9'}}>Login!</a></Link></div>
               <p style={{textAlign: 'center'}}>
                   <button onClick={() => {
                     if (state?.data) {
                       CreateStripeSession()
                     } else {
-                      Navigator.push('/account')
+                      Navigator.push('/login')
                     }
                   }}>Checkout</button>
               </p>

@@ -12,7 +12,7 @@ const transport = nodemailer.createTransport({
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 axios.defaults.timeout = 10 * 1000;
 
-const domain = "http://localhost:4004";
+const domain = "http://localhost:3001";
 
 const urls = [
     "https://twitter.com/DONJAZZY/status/1280507784073707525?t=" + (new Date().getTime()),

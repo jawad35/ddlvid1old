@@ -4,7 +4,7 @@ const assert = require('assert');
 const axios = require('axios');
 const { h } = require('./hashMe');
 
-const domain = "http://localhost:4004";
+const domain = "http://localhost:3001";
 
 describe('Twitter Test', async () => {
     it('success should return true', async () => {

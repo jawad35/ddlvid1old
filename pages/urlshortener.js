@@ -45,14 +45,49 @@ const Home = ({ t }) => {
     Navigator.push(response.url)
     // window.location.href = response.url;
   };
+
+
+//   const LinkShortener = async (e) => {
+//     // Replace 'YOUR_API_KEY' with your actual Short.io API key
+//  const apiKey = 'sk_szSN6p07mPvExEZA';
+//  const longUrl = 'https://example.com'; // The URL you want to shorten
+ 
+//  // Define the API endpoint
+//  const apiUrl = 'https://api.short.io/links';
+ 
+//  // Create an object with the data to send in the POST request
+//  const postData = {
+//    originalURL: longUrl,
+//    domain: 'link.try123.com', // Replace with your Short.io custom domain
+//  };
+ 
+//  // Make the API request
+//  fetch(apiUrl, {
+//    method: 'POST',
+//    headers: {
+//      'Content-Type': 'application/json',
+//      'Authorization': `Bearer ${apiKey}`,
+//    },
+//    body: JSON.stringify(postData),
+//  })
+//    .then(response => response.json())
+//    .then(data => {
+//      // The short URL will be in the 'data.link' property of the response
+//      console.log('Short URL:', data.link);
+//    })
+//    .catch(error => {
+//      console.error('Error creating short URL:', error);
+//    });
+//    }
+
   const LinkShortener = async (e) => {
+    
     setError(null);
     if (link !== "") {
       const { data: response } = await Axios.post(
         "/shorturl", {link}
       );
-console.log(response?.data?.result?.full_short_link)
-      setIsShortUrl(response?.data?.result?.full_short_link)
+      setIsShortUrl(response?.url)
     } else {
       setError('Link is required.');
     }
@@ -263,7 +298,6 @@ console.log(response?.data?.result?.full_short_link)
 
       <main>
         <Header />
-        
         <div id="content">
           <div className="section1">
             <div className="container">
@@ -377,7 +411,7 @@ console.log(response?.data?.result?.full_short_link)
                   />
               </p> */}
               <strong style={{marginTop:'40px'}}>Note:</strong>
-              <div>You must have to login before checkout <Link  href="/account"><a style={{color:'#0093E9'}}>Login!</a></Link></div>
+              <div>You must have to login before checkout <Link  href="/login"><a style={{color:'#0093E9'}}>Login!</a></Link></div>
               <p style={{textAlign: 'center'}}>
                   <button onClick={() => {
                     if (state?.data) {
@@ -387,7 +421,7 @@ console.log(response?.data?.result?.full_short_link)
                           LinkShortener()
                       }
                     } else {
-                      Navigator.push('/account')
+                      Navigator.push('/login')
                     }
                   }}>Checkout</button>
               </p>
