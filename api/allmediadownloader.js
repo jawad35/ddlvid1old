@@ -62,6 +62,7 @@ const AllMediaDownloader = async (url, socialName) => {
           }
           if (socialName === "youtube.com" || socialName === "youtu.be") {
             const FilteredItems  = []
+            const audioData = response?.data?.formats?.filter(obj => obj.resolution === "audio only" && obj.ext === "m4a");
             const objectWithProperty = response?.data?.formats?.filter(obj => obj.hasOwnProperty("audio_channels"));
             objectWithProperty?.map(item => {
                 if (item?.ext === "mp4" && item?.audio_channels !== null) {
@@ -76,7 +77,8 @@ const AllMediaDownloader = async (url, socialName) => {
                 success: true,
                 video_url: maxObject?.url,
                 description:response?.data?.fulltitle,
-                data:response.data
+                data:response.data,
+                audio: audioData[0]?.url
             }
           }
           if (socialName === "fb.watch" || socialName === "facebook.com" || socialName === "fb.com") {
@@ -116,11 +118,11 @@ const AllMediaDownloader = async (url, socialName) => {
         //     result: response?.data
         // }
       } catch (error) {
+        console.error(error);
         return {
           success: false,
           result: null
       }
-          console.error(error);
       }
 
     return {

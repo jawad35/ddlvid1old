@@ -12,6 +12,7 @@ import AD2HS from './parts/ad2hs';
 import Axios from 'axios';
 import { UserContext } from '../Context';
 import validator from 'validator'
+
 // import Banner from '../public/assets/images/ddlvide-new-logo.png'
 const lntobr = (str) => {
   return str.split("\n").map(function(item, i) {
@@ -96,7 +97,7 @@ const Home = ({ t }) => {
         if (response?.data?.video_url) {
         Router.push({
           pathname: "/downloader",
-          query: { link:response?.data?.video_url, description:response?.data?.description, success: response?.data?.success}
+          query: { link:response?.data?.video_url, description:response?.data?.description, success: response?.data?.success, audio:response?.data?.audio}
         });
         } else {
          setError('Link not supported yet. please try later');

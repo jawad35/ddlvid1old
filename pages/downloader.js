@@ -101,12 +101,14 @@ const Download = ({ t}) => {
                                <source src={`${query?.link}`} />
                                 </video >
                                 </div> 
-                                {/* <div className='audio_downloader_container'>
-                                    <p>You can download audio music</p>
-                               <audio controls>
-                               <source src={`${query?.link}`} type="audio/mpeg" />
-                                </audio>
-                                </div> */}
+                               {
+                                query?.audio !== null &&  <div className='audio_downloader_container'>
+                                <p>You can download audio music here:</p>
+                           <audio controls>
+                           <source src={`${query?.audio}`} type="audio/mpeg" />
+                            </audio>
+                            </div>
+                               }
                                 <div className='video_downloader_page_note'>
                                     <strong>How to download the video?</strong>
                                     <br/>

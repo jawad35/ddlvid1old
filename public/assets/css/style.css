@@ -1820,6 +1820,13 @@ margin-top: 20px;
   .audio_downloader_container{
     text-align: center;
   }
+  .not-found-shortid{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+ 
+  }
 
   @media (max-width: 1024px) {
     .responsive-container-block.Container {

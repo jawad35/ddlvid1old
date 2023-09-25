@@ -122,7 +122,7 @@ if (dev) {
 
 const { downloader } = require("./api/downloader");
 const Subscription = require("./models/subscription");
-const { handleGenerateNewShortURL } = require("./controllers/urlshortenerController");
+const { handleGenerateNewShortURL, handleGetAnalytics } = require("./controllers/urlshortenerController");
 const URLShorten = require("./models/urlshorten");
 const { AllMediaDownloader } = require("./api/allmediadownloader");
 const EmailSender = require("./controllers/mailController");
@@ -431,7 +431,7 @@ const transport = nodemailer.createTransport({
 
 	  //Shorten url api
 	  server.post("/shorturl", handleGenerateNewShortURL);
-// server.get("/analytics/:shortId", handleGetAnalytics);
+      server.post("/getlink", handleGetAnalytics);
 	  
 
 	  // Video Downloader using RapidApi start

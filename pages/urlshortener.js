@@ -13,6 +13,7 @@ import Axios from 'axios';
 import { UserContext } from '../Context';
 import validator from 'validator';
 import Copy from "copy-to-clipboard";
+import ApiLoader from './parts/apiloader';
 // import Banner from '../public/assets/images/ddlvide-new-logo.png'
 const lntobr = (str) => {
   return str.split("\n").map(function(item, i) {
@@ -29,6 +30,7 @@ const Home = ({ t }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [prices, setPrices] = useState([]);
   const [isShortUrl, setIsShortUrl] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [iscopied, setIsCopied] = useState(false);
   const [subscriptionData, setSubscriptionData] = useState([]);
 
@@ -81,15 +83,17 @@ const Home = ({ t }) => {
 //    }
 
   const LinkShortener = async (e) => {
-    
+    setIsLoading(true)
     setError(null);
     if (link !== "") {
       const { data: response } = await Axios.post(
         "/shorturl", {link}
       );
       setIsShortUrl(response?.url)
+      setIsLoading(false)
     } else {
       setError('Link is required.');
+      setIsLoading(false)
     }
     return false;
   }
@@ -350,8 +354,11 @@ const Home = ({ t }) => {
                       className={(error) ? 'has-error' : null}
                     />
                     <div className="download">
-                      <button onClick={() => CheckURlValidation()}>{t('get_url_btn')}</button>
+                      <button disabled={isLoading} onClick={() => CheckURlValidation()}>{t('get_url_btn')}</button>
                     </div>
+                    {
+                      isLoading && <ApiLoader/>
+                    }
                     {error ? <div className="error_message" onClick={() => setError(null)}>{error}</div> : null}
                   </div>
                 </div>
