@@ -116,6 +116,10 @@ const AllMediaDownloader = async (url, socialName) => {
         //     result: response?.data
         // }
       } catch (error) {
+        return {
+          success: false,
+          result: null
+      }
           console.error(error);
       }
 

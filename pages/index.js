@@ -84,6 +84,10 @@ const Home = ({ t }) => {
       }
       if (supported) {
         setLoading(true)
+        // Router.push({
+        //   pathname: "/download",
+        //   query: { link}
+        // });
         const { data: response } = await Axios.post(
           "/videodownload", {link, socialName}
         );
@@ -92,9 +96,10 @@ const Home = ({ t }) => {
         if (response?.data?.video_url) {
         Router.push({
           pathname: "/downloader",
-          query: { link:response?.data?.video_url, description:response?.data?.description }
+          query: { link:response?.data?.video_url, description:response?.data?.description, success: response?.data?.success}
         });
-
+        } else {
+         setError('Link not supported yet. please try later');
         }
       
       } else {
