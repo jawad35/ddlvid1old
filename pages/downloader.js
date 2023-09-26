@@ -7,6 +7,7 @@ import Header from './parts/header';
 import Footer from './parts/footer';
 import AD2HS from './parts/ad2hs';
 import { useRouter } from 'next/router';
+import Axios from 'axios';
 
 const Download = ({ t}) => {
 
@@ -52,6 +53,28 @@ const Download = ({ t}) => {
 // downloadFile("https://v39.tiktokcdn-us.com/11b63b0ea93a389bea06382f85579035/65109c18/video/tos/useast2a/tos-useast2a-ve-0068c001/oUkePDg1EoOGBDNEIwJxjBAuQRf1wJN5pQWzrh/?a=1233&ch=0&cr=13&dr=0&lr=all&cd=0%7C0%7C0%7C&cv=1&br=704&bt=352&bti=OUBzOTg7QGo0NzZAL3AjLTAzYCM1NTNg&cs=0&ds=6&ft=_rbUxBnZq8Zmo_RC~Q_vjFiEnreLrus&mime_type=video_mp4&qs=4&rc=NjdpN2ZoPDU4O2ZkaTo4aUBpMzNyeDY6ZnJ3bTMzNzczM0AwLjMxYF4uXi4xXjMxNWE0YSMwNF4zcjQwX2xgLS1kMTZzcw%3D%3D&l=202309241425297778D9A64D9B058D2F84&btag=e00018000", 'image.jpg');
 
 // }, [])
+const localDownload = async (url, backup_url, filename, ext) => {
+    if (typeof ext === "undefined") {
+        ext = ".mp4";
+    }
+    if (filename === "") {
+        filename = (new Date()).getTime() + ext;
+    }
+    try {
+        const config = {
+            responseType: 'blob'
+        };
+        const r = await Axios.get(url, config);
+        const blob = new Blob([r.data]);
+        const link = window.document.createElement('a');
+        link.href = window.URL.createObjectURL(blob);
+        link.download = "DDLVID.COM-" + filename;
+        link.click();
+    } catch (error) {
+        console.log(error)
+        // window.location = backup_url;
+    }
+};
     return (
         <div id="download">
             {query?.description !== "undefined" ? (
@@ -81,6 +104,8 @@ const Download = ({ t}) => {
             <main>
                 <Header />
                     <div className="downloadContent">
+        <button onClick={() => localDownload(query?.link)}>Download</button>
+
                         {query?.success ==="true" ? (
                             <div className="container card">
                                 <div className='desc video_downloader_page_title'>
@@ -102,7 +127,7 @@ const Download = ({ t}) => {
                                 </video >
                                 </div> 
                                {
-                                query?.audio !== null &&  <div className='audio_downloader_container'>
+                                query?.audio !== "undefined" &&  <div className='audio_downloader_container'>
                                 <p>You can download audio music here:</p>
                            <audio controls>
                            <source src={`${query?.audio}`} type="audio/mpeg" />
