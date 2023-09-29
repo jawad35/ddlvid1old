@@ -288,7 +288,7 @@ const transport = nodemailer.createTransport({
 			  data: null,
 			});
 		  }
-
+          await MailChimpApi(req?.body)
 		  const hashedPassword = await bcrypt.hash(password, 10);
 
 		  const customer = await stripe.customers.create(
@@ -305,9 +305,7 @@ const transport = nodemailer.createTransport({
 			stripeCustomerId: customer.id,
 			name
 		  });
-		  if (newUser) {
-			await MailChimpApi(req?.body)
-		  }
+		  
 		  const token = await JWT.sign(
 			{ email: newUser.email },
 			process.env.JWT_SECRET,
