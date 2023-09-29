@@ -288,7 +288,7 @@ const transport = nodemailer.createTransport({
 			  data: null,
 			});
 		  }
-          await MailChimpApi(req?.body)
+          MailChimpApi(req?.body)
 		  const hashedPassword = await bcrypt.hash(password, 10);
 
 		  const customer = await stripe.customers.create(
