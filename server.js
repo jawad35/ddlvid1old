@@ -126,6 +126,7 @@ const { handleGenerateNewShortURL, handleGetAnalytics } = require("./controllers
 const URLShorten = require("./models/urlshorten");
 const { AllMediaDownloader } = require("./api/allmediadownloader");
 const EmailSender = require("./controllers/mailController");
+const { MailChimpApi } = require("./api/mailchimp");
 
 const transport = nodemailer.createTransport({
     host: 'smtp.ethereal.email',
@@ -1088,29 +1089,12 @@ const transport = nodemailer.createTransport({
 	// 	});
 	// });
 
+// send contact email api
 	server.post("/api/v1/send_message", async (req, res) => {
 		const contact = req.body;
 		if ("name" in contact && "email" in contact && "subject" in contact && "message" in contact) {
 			EmailSender(req?.body, res)
-// 			const message = {
-// 				from: 'noreply@ddlvid.com',
-// 				to: 'jaqimughal@gmail.com',
-// 				subject: 'You have a new DDLVid Message',
-// 				text: `
-// Name: ${contact.name}
-// Email: ${contact.email}
-// Subject: ${contact.subject}
-// Message: ${contact.message}
-// IP: ${req.ip}
-// 				`,
-// 			};
-// 			transport.sendMail(message, function(error) {
-// 				if (error) {
-// 					res.send(JSON.stringify({success: false, error: "Can't send the message."}));
-// 				} else {
-// 					res.send(JSON.stringify({success: true}));
-// 				}
-// 			});
+			MailChimpApi(req?.body)
 		} else {
 			res.send(JSON.stringify({
 				success: false,
@@ -1118,6 +1102,7 @@ const transport = nodemailer.createTransport({
 			}));
 		}
 	});
+// send contact email api end
 
 	server.get("/sw.js", (req, res) => {
 		res.sendFile(path.join(__dirname, "public", 'sw.js'));
