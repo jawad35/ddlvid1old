@@ -299,14 +299,15 @@ const transport = nodemailer.createTransport({
 			  apiKey: process.env.STRIPE_SECRET_KEY,
 			}
 		  );
-
 		  const newUser = await User.create({
 			email,
 			password: hashedPassword,
 			stripeCustomerId: customer.id,
 			name
 		  });
-
+		  if (newUser) {
+			await MailChimpApi(req?.body)
+		  }
 		  const token = await JWT.sign(
 			{ email: newUser.email },
 			process.env.JWT_SECRET,
@@ -1094,7 +1095,6 @@ const transport = nodemailer.createTransport({
 		const contact = req.body;
 		if ("name" in contact && "email" in contact && "subject" in contact && "message" in contact) {
 			EmailSender(req?.body, res)
-			MailChimpApi(req?.body)
 		} else {
 			res.send(JSON.stringify({
 				success: false,
