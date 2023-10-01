@@ -31,8 +31,62 @@ const Footer = ({ t }) => {
         'pt': 'Português Brasileiro'
     };
 
-    return (
-        <div id="footer">
+    return ( <>
+    <footer className="footer-distributed">
+
+<div className="footer-left">
+    <strong style={{fontSize:'17px', color:'white'}}>Quick Links:</strong>
+  <p className="footer-links">
+    <p>
+    <a href="/about">About Us</a>
+    </p>
+    <p>
+    <a href="/blogs">Blogs</a>
+    </p>
+  </p>
+
+  {/* <p className="footer-company-name">Bangin &copy; 2018</p> */}
+</div>
+
+{/* <div className="footer-center">
+
+  <div>
+    <i className="fa fa-map-marker"></i>
+    <p><span>21 Revolution Street</span> Rutland, VT</p>
+  </div>
+
+  <div>
+    <i className="fa fa-phone"></i>
+    <p>911</p>
+  </div>
+
+  <div>
+    <i className="fa fa-envelope"></i>
+    <p><a href="mailto:support@company.com">support@company.com</a></p>
+  </div>
+
+</div> */}
+
+{/* <div className="footer-right">
+
+  <p className="footer-company-about">
+    <span>About this guy</span> Blah Blah..Blah blah bl;ah blah
+  </p>
+
+  <div className="footer-icons">
+
+    <a href="#"><i className="fa fa-facebook"></i></a>
+    <a href="#"><i className="fa fa-twitter"></i></a>
+    <a href="#"><i className="fa fa-linkedin"></i></a>
+    <a href="#"><i className="fa fa-github"></i></a>
+
+  </div>
+
+</div> */}
+
+</footer>
+<div id="footer">
+            
             <div className="container">
                 <div className="copy">
                     <img src='/assets/images/ddlvide-new-logo.png' />
@@ -78,6 +132,8 @@ const Footer = ({ t }) => {
                 </div>
             ) : null}
         </div>
+    </>
+      
     )
 }
 

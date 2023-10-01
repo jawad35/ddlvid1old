@@ -1,57 +1,34 @@
-import React from 'react';
 
-class VideoDownloader extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      videoUrl: '',
-    };
-  }
+import React, { useEffect, useState } from 'react';
 
-  handleInputChange = (event) => {
-    this.setState({ videoUrl: event.target.value });
+const Image = () => {
+  // const [validurl, setValidUrl] = useState([])
+  const [images, setImages] = useState([
+    'https://lookaside.fbsbx.com/lookaside/crawler/media/?media_id=231899625623198',
+    'https://i.ytimg.com/vi/hcpUkOTspOU/maxresdefault.jpg',
+    'https://lookaside.fbsbx.com/lookaside/crawler/media/?media_id=231899625623198',
+    'https://media.gettyimages.com/id/1469882992/photo/engineers-check-aerodynamics-of-electric-car.jpg?b=1&s=612x612&w=0&k=20&c=77RZoUEhMA0b5FgJVF5c2tJ0XckFE29GC60bqeJOhyI=',
+  ])
+
+  const handleImageError = (i) => {
+    // Handle the error here, e.g., by logging it
+    console.error('Image load error', i);
   };
 
-  handleDownload = () => {
-    const { videoUrl } = this.state;
-
-    // Make an HTTP request to the video URL
-    fetch(videoUrl)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return response.blob();
-      })
-      .then((blob) => {
-        // Create a URL for the blob and trigger a download
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.style.display = 'none';
-        a.href = url;
-        a.download = 'downloaded-video.mp4'; // You can specify the file name here
-        document.body.appendChild(a);
-        a.click();
-        window.URL.revokeObjectURL(url);
-      })
-      .catch((error) => {
-        console.error('Error downloading video:', error);
-      });
-  };
-
-  render() {
+ 
+console.log(validurl)
+    
     return (
       <div>
-        <input
-          type="text"
-          placeholder="Enter video URL"
-          value={this.state.videoUrl}
-          onChange={this.handleInputChange}
-        />
-        <button onClick={this.handleDownload}>Download Video</button>
+        <h1>Valid Images</h1>
+        <ul>
+          {images?.map((imageUrl, index) => (
+            <li key={index}>
+              <img src={imageUrl} onError={() => handleImageError(index)} alt={`Image ${index + 1}`} />
+            </li>
+          ))}
+        </ul>
       </div>
     );
   }
-}
-
-export default VideoDownloader;
+export default Image;

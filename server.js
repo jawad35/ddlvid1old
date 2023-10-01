@@ -123,10 +123,11 @@ if (dev) {
 const { downloader } = require("./api/downloader");
 const Subscription = require("./models/subscription");
 const { handleGenerateNewShortURL, handleGetAnalytics } = require("./controllers/urlshortenerController");
-const URLShorten = require("./models/urlshorten");
 const { AllMediaDownloader } = require("./api/allmediadownloader");
 const EmailSender = require("./controllers/mailController");
 const { MailChimpApi } = require("./api/mailchimp");
+const { textToSuggestions } = require("./api/rapidapis/textToSuggestions");
+const { TextToPhotosApi } = require("./api/rapidapis/textToPhotos");
 
 const transport = nodemailer.createTransport({
     host: 'smtp.ethereal.email',
@@ -461,6 +462,14 @@ const transport = nodemailer.createTransport({
 		// return res.json(prices);
 	  });
 	  // Video Downloader using RapidApi end
+
+	  // text to photos start
+	  server.post("/texttophotos", TextToPhotosApi);
+	  // text to photos End
+
+	  // Text to suggestions start
+	  server.post("/suggestions", textToSuggestions);
+	  // Text to suggestions End
 	server.get("/redirect", async (req, res) => {
 		if ('url' in req.query) {
 			let url = req.query.url;

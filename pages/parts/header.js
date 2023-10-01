@@ -84,15 +84,21 @@ const Header = ({ t }) => {
                         <li>
                             <Link href="/urlshortener"><a onClick={() => setShowMobileMenu(false)} title={t('url_shortener')}>{t('url_shortener')}</a></Link>
                         </li>
-                         <li>
-                            <Link href="/about"><a onClick={() => setShowMobileMenu(false)} title={t('about_us') + ' - DDLVid'}>{t('about_us')}</a></Link>
+                        <li>
+                            <Link href="/texttophotos"><a onClick={() => setShowMobileMenu(false)} title={t('text_to_video')}>{t('text_to_video')}</a></Link>
                         </li>
+                        <li>
+                            <Link href="/keywordssuggestions"><a onClick={() => setShowMobileMenu(false)} title={t('photos_vidoes')}>{t('photos_vidoes')}</a></Link>
+                        </li>
+                         {/* <li>
+                            <Link href="/about"><a onClick={() => setShowMobileMenu(false)} title={t('about_us') + ' - DDLVid'}>{t('about_us')}</a></Link>
+                        </li> */}
                         <li>
                             <Link href="/contact"><a onClick={() => setShowMobileMenu(false)} title={t('contact_us')}>{t('contact_us')}</a></Link>
                         </li>
-                        <li>
+                        {/* <li>
                             <Link href="/blogs"><a onClick={() => setShowMobileMenu(false)} title={t('blogs')}>{t('blogs')}</a></Link>
-                        </li>
+                        </li> */}
                         <li>
                             {
                                 state.data ? <a onClick={() =>  handleLogout()}>Logout</a> : <Link href="/login"><a onClick={() => setShowMobileMenu(false)} title={t('login')}>{t('login')}</a></Link>

@@ -10,8 +10,6 @@ import Footer from './parts/footer';
 import AD2HS from './parts/ad2hs';
 import Axios from 'axios';
 import { UserContext } from '../Context';
-import validator from 'validator';
-import Copy from "copy-to-clipboard";
 import ApiLoader from './parts/apiloader';
 import CheckOutModal from './parts/checkoutmodal';
 const lntobr = (str) => {
@@ -22,39 +20,67 @@ const lntobr = (str) => {
   }); 
 };
 
-const Home = ({ t }) => {
+const texttophotosPage = ({ t }) => {
 
-  const [link, setLink] = useState('');
+  const [text, setText] = useState('');
   const [error, setError] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [prices, setPrices] = useState([]);
-  const [isShortUrl, setIsShortUrl] = useState(false);
+  const [Photos, setPhotos] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [iscopied, setIsCopied] = useState(false);
   const [subscriptionData, setSubscriptionData] = useState([]);
-
   const [state, setState] = useContext(UserContext);
 
-  const LinkShortener = async (e) => {
+  const texttophotosPage = async (e) => {
     setIsLoading(true)
+    setPhotos([])
     setError(null);
-    if (link !== "") {
+    if (text !== "") {
       const { data: response } = await Axios.post(
-        "/shorturl", {link}
+        "/texttophotos", {text}
       );
-      setIsShortUrl(response?.url)
+      if (response?.photos?.length !== 0) {
+        setPhotos(response?.photos)
+      } else {
+        setError("Result Not Found")
+      }
       setIsLoading(false)
     } else {
-      setError('Link is required.');
+      setError('Text is required.');
       setIsLoading(false)
     }
     return false;
   }
+  function downloadImage(image) {
+    fetch(image)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.blob();
+      })
+      .then(blob => {
+        const url = URL.createObjectURL(blob);
+        // Create an anchor element to trigger the download
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'image.jpg'; // You can set the desired filename here
+        document.body.appendChild(a);
+        a.click();
+        // Clean up the URL object after download
+        URL.revokeObjectURL(url);
+      })
+      .catch(error => {
+        console.error('Error downloading the image:', error);
+      });
+  }
+  
+  // Call the function to initiate the download when needed
   const fetchPrices = async () => {
     const { data: response } = await Axios.get(
       "/prices"
     );
-    console.log(response?.data[2]);
     setPrices(response?.data[2]);
   };
   const fetchSubscriptionData = async () => {
@@ -65,18 +91,13 @@ const Home = ({ t }) => {
   };
 
   const CheckURlValidation = () => {
-    if (validator.isURL(link)) {
       if (state?.data && subscriptionData?.length !==0) {
         setIsCopied(false)
-        setIsShortUrl(false)
-        LinkShortener()
+        texttophotosPage()
       } else {
         setIsModalOpen(true)
         setError("")
       }
-    } else {
-      setError("Please Enter a Valid Url")
-    }
   }
   useEffect(() => {
     if (state?.data) {
@@ -157,9 +178,9 @@ const Home = ({ t }) => {
             <div className="container">
               <div className="headline">
                 <img className='banner_image' src={"/assets/images/main-ddlvid-banner.jpeg"} alt={"Image Crashed"} style={{ width: '100%', height: 'auto' }} />
-                <h1>{t('shortener_headline')}</h1>
+                <h1>{t('textvideo-headline')}</h1>
                 <div className="desc">
-                  {lntobr(t('shortener_sub_headline'))}
+                  {lntobr(t('textvideo-sub-headline'))}
                 </div>
                 <StickyShareButtons
                   config={{
@@ -194,63 +215,64 @@ const Home = ({ t }) => {
                     <input
                       name="link"
                       id="link"
-                      placeholder="https://"
-                      value={link}
-                      onChange={(e) => setLink(e.target.value)}
-                      type='url'
-                      pattern="https?://.+"
+                      placeholder="Please enter text"
+                      value={text}
+                      onChange={(e) => setText(e.target.value)}
+                      type='text'
                       required
                       autoComplete="off"
                       className={(error) ? 'has-error' : null}
                     />
                     <div className="download">
-                      <button disabled={isLoading} onClick={() => CheckURlValidation()}>{t('get_url_btn')}</button>
+                      <button disabled={isLoading} onClick={() => CheckURlValidation()}>{t('btn-text')}</button>
                     </div>
-                    {
-                      isLoading && <ApiLoader/>
-                    }
+
                     {error ? <div className="error_message" onClick={() => setError(null)}>{error}</div> : null}
                   </div>
                 </div>
+               <div style={{marginTop:'30px'}}>
+               {
+                      isLoading && <ApiLoader/>
+                    }
+               </div>
               </div>
             </div>
           </div>
           {
-            isShortUrl &&   <div className='short_url_section'>
-            <p>Here is your shorten url</p>
-            <p className='shorten_url'>
-              {isShortUrl}
-            </p>
-            <p>
-            <button onClick={() => {
-              Copy(isShortUrl)
-              setIsCopied(true)
-            }}>{iscopied ? "Copied" :"Copy"}</button>
-            </p>
+            Photos &&   <div className='text_video_section'>
+           {
+            Photos?.map((img, index) =>{
+                return <div key={index} className="text-images-wrapper">
+<div>
+<img src={img ? img : "/assets/images/imageError.png"} alt={"Image Crashed"} onError={"/assets/images/imageError.png"} />
+<p className='text-center'>
+                        <button onClick={() => downloadImage(img)} >Download</button>
+                    </p>
+</div>
+
+</div>
+            })
+           }
       </div>
           }
         
          {
-          isModalOpen &&  <CheckOutModal MainFunc={LinkShortener} setIsModalOpen={setIsModalOpen} priceId={prices?.id}/>
+          isModalOpen &&  <CheckOutModal MainFunc={texttophotosPage} setIsModalOpen={setIsModalOpen} priceId={prices?.id}/>
          }
           <div className="section5">
             <div className="container">
               <div className="img" />
-                <h2>{t('best_free_online_url_shortener')}</h2>
+                <h2>{t('best_text_to_video_conerter')}</h2>
                 <p>
-                  {lntobr(t('url_shorten_des'))}
+                  {lntobr(t('text_video_des'))}
                 </p>
             </div>
           </div>
           <div className='blog-article container'>
           <img src={"/assets/images/ddlvide-image.jpeg"} alt={"Image Crashed"} style={{ width: '100%', height: 'auto' }} />
-          <p className='blog-article-text'>
-          We are adding services to The World's Best Video Downloader & created the safest URL shortener on the planet, no Malware or spam adverts on your computer for your total peace of mind!
-          <br/>
-          <p style={{margin:'15px 0px'}}>
-          We have safely been offering SAAS tools to our millions of users for over 3 years now so, jump on in & join the DDLVid community now!
-          </p>
-          </p>
+          <p>
+                  {lntobr(t('text_video_des'))}
+                </p>
             <p style={{textAlign:'center'}}>
             <button>Read More</button>
               </p>  
@@ -261,7 +283,7 @@ const Home = ({ t }) => {
                 <a className="btn" onClick={() => {
                   window.document.querySelector("#link").focus();
                   window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
-                }}>{t('start_shortener')}</a>
+                }}>{t('start_text_video')}</a>
               </div>
             </div>
           </div>
@@ -292,12 +314,12 @@ const Home = ({ t }) => {
   )
 }
 
-Home.getInitialProps = async () => ({
+texttophotosPage.getInitialProps = async () => ({
   namespacesRequired: ['urlshortener'],
 })
 
-Home.propTypes = {
+texttophotosPage.propTypes = {
   t: PropTypes.func.isRequired,
 }
 
-export default withTranslation('urlshortener')(Home)
+export default withTranslation('text-to-photos')(texttophotosPage)
