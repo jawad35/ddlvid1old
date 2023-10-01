@@ -8,6 +8,13 @@ import Footer from './parts/footer';
 import { useState, useEffect } from 'react';
 import AD2HS from './parts/ad2hs';
 import AboutUsJson from '../public/static/locales/en/about.json'
+const lntobr = (str) => {
+    return str.split("\n").map(function(item, i) {
+      return (
+        <span key={i}>{item}<br/></span>
+      )
+    }); 
+  };
 const About = ({ t }) => {
 
     useEffect(() => {
@@ -66,7 +73,14 @@ const About = ({ t }) => {
                     </div>
                     <div className="responsive-container-block bigContainer card">
   <div className="responsive-container-block Container">
-    <div className="allText aboveText">
+                <h2>{t('title')}</h2>
+                <div>
+                <p>
+                  {lntobr(t('content'))}
+                </p>
+                </div>
+               
+    {/* <div className="allText aboveText">
       <p className="text-blk headingText">
         Welcome to DDLVid.com!
       </p>
@@ -82,7 +96,7 @@ const About = ({ t }) => {
       <p className="text-blk description">
       Thanks for trusting us, the World's safest video downloader service.
       </p>
-    </div>
+    </div> */}
     <img src={"/assets/images/ddlvide-image.jpeg"} alt={"Image Crashed"} style={{ width: '100%', height: 'auto', marginTop:'30px' }} />
   </div>
 </div>
@@ -121,4 +135,4 @@ About.propTypes = {
     t: PropTypes.func.isRequired,
 }
 
-export default withTranslation('contact')(About)
+export default withTranslation('about')(About)
