@@ -43,7 +43,11 @@ const KeywordSuggesionsPage = ({ t }) => {
       const { data: response } = await Axios.post(
         "/suggestions", {text}
       );
-    setSuggestionsList(response?.suggestionsArray)
+      if (response?.suggestionsArray?.length !== 0) {
+        setSuggestionsList(response?.suggestionsArray)
+      } else {
+        setError("Result Not Found")
+      }
       setIsLoading(false)
     } else {
       setError('Text is required.');
