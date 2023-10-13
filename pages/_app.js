@@ -13,6 +13,7 @@ import '../public/assets/css/paymentsuccess.css';
 import '../public/assets/css/chip.css';
 import '../public/assets/css/footer.css';
 import '../public/assets/css/dark.css';
+import ReactGA from "react-ga4";
 import { UserProvider } from '../Context';
 NProgress.configure({ showSpinner: false });
 Router.events.on('routeChangeStart', url => {
@@ -20,8 +21,13 @@ Router.events.on('routeChangeStart', url => {
 });
 Router.events.on('routeChangeComplete', () => NProgress.done());
 Router.events.on('routeChangeError', () => NProgress.done());
-
+ReactGA.initialize("G-9PHR0VTQ1R");
 function MyApp({ Component, pageProps }) {
+    ReactGA.event({
+        category: "vistors",
+        action: "visit",
+        label: "vists"
+    })
     return <UserProvider>
         <ToastContainer/>
         <Component {...pageProps} />
