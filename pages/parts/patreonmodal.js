@@ -24,7 +24,10 @@ const PatreonModal = ({ setIsAccountModal, MainFunc }) => {
               <button onClick={() => MainFunc()}>
                 Continue
               </button>
-              <button onClick={() => window.open("https://www.patreon.com/ddlvid", "__blank")}>
+              <button onClick={() => {
+                setIsAccountModal(false)
+                window.open("https://www.patreon.com/ddlvid")
+              }}>
                 Support Us
               </button>
             </div>
