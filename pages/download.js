@@ -363,9 +363,6 @@ const Download = ({ t, _loading, _success, _result, _site, link }) => {
     if (site === "reddit") {
         Template = TemplateReddit;
     }
-    if (site === "pornhub") {
-        Template = TemplatePornhub;
-    }
     if (site === "instagram") {
         Template = TemplateInstagram;
     }

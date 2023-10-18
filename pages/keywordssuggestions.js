@@ -15,6 +15,7 @@ import CheckOutModal from './parts/checkoutmodal';
 import { FaRegCopy } from 'react-icons/fa';
 import Copy from "copy-to-clipboard";
 import { toast } from 'react-toastify';
+import LoginModal from './parts/loginmodal';
 const lntobr = (str) => {
   return str.split("\n").map(function(item, i) {
     return (
@@ -62,25 +63,35 @@ const KeywordSuggesionsPage = ({ t }) => {
     );
     setPrices(response?.data[2]);
   };
-  const fetchSubscriptionData = async () => {
-    const { data: response } = await Axios.get(
-      "/subscription"
-    );
-    setSubscriptionData(response)
-  };
-
+  // const fetchSubscriptionData = async () => {
+  //   const { data: response } = await Axios.get(
+  //     "/subscription"
+  //   );
+  //   setSubscriptionData(response)
+  // };
+  const AfterClosePatreon = () => {
+    setIsPatreonModal(false)
+    if (state?.data) {
+      setIsCopied(false)
+      KeywordSuggesions()
+    } else {
+      setIsModalOpen(true)
+      setError("")
+    }
+  }
   const CheckURlValidation = () => {
-      if (state?.data && subscriptionData?.length !==0) {
-        setIsCopied(false)
-        KeywordSuggesions()
-      } else {
-        setIsModalOpen(true)
-        setError("")
-      }
+    if (!state?.data) {
+      setIsAccountModal(true)
+      setError("")
+    } else {
+      setIsModalOpen(false)
+      setIsPatreonModal(true)
+      setError("")
+    }
   }
   useEffect(() => {
     if (state?.data) {
-      fetchSubscriptionData()
+      // fetchSubscriptionData()
       fetchPrices()
     }
   }, [state])
@@ -237,8 +248,11 @@ const KeywordSuggesionsPage = ({ t }) => {
           }
         
          {
-          isModalOpen &&  <CheckOutModal MainFunc={KeywordSuggesions} setIsModalOpen={setIsModalOpen} priceId={prices?.id}/>
+          isModalOpen &&  <LoginModal setIsModalOpen={setIsModalOpen}/>
          }
+         {
+                isPatreonModal && <PatreonModal setIsAccountModal={setIsPatreonModal} MainFunc={AfterClosePatreon}/>
+               }
           <div className="section5">
             <div className="container">
               <div className="img" />

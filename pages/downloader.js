@@ -104,7 +104,6 @@ const localDownload = async (url, backup_url, filename, ext) => {
             <main>
                 <Header />
                     <div className="downloadContent">
-        <button onClick={() => localDownload(query?.link)}>Download</button>
 
                         {query?.success ==="true" ? (
                             <div className="container card">

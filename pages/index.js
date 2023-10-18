@@ -12,6 +12,8 @@ import AD2HS from './parts/ad2hs';
 import Axios from 'axios';
 import { UserContext } from '../Context';
 import validator from 'validator'
+import LoginModal from './parts/loginmodal';
+import PatreonModal from './parts/patreonmodal';
 
 // import Banner from '../public/assets/images/ddlvide-new-logo.png'
 const lntobr = (str) => {
@@ -28,25 +30,25 @@ const Home = ({ t }) => {
   const [error, setError] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isAccountModal, setIsAccountModal] = useState(false);
+  const [isPatreonModal, setIsPatreonModal] = useState(false);
   const [prices, setPrices] = useState([]);
   const [subscriptionData, setSubscriptionData] = useState([]);
   const [loading, setLoading] = useState(false);
   const Navigator = Router
   const [state, setState] = useContext(UserContext);
  
-  const CreateStripeSession = async () => {
-    const { data: response } = await Axios.post(
-      "/session",
-      {
-        priceId: prices.id,
-      }
-    );
-    Navigator.push(response.url)
-    // window.location.href = response.url;
-  };
+  // const CreateStripeSession = async () => {
+  //   const { data: response } = await Axios.post(
+  //     "/session",
+  //     {
+  //       priceId: prices.id,
+  //     }
+  //   );
+  //   Navigator.push(response.url)
+  //   // window.location.href = response.url;
+  // };
   
 
-  const [videoUrl, setVideoUrl] = useState('https://rr1---sn-2uja-pnck.googlevideo.com/videoplayback?expire=1695502984&ei=KP4OZbjzBJSCkgbJp4zYCg&ip=184.168.28.198&id=o-AF4v3DldX9hKgCcEkNNv-5YbBYnocQdti4Le1Rva4n5l&itag=22&source=youtube&requiressl=yes&spc=UWF9f5YcljetwwTUnEUmkamO9tiyMj4&vprv=1&svpuc=1&mime=video%2Fmp4&cnr=14&ratebypass=yes&dur=231.944&lmt=1686013820435482&fexp=24007246&c=ANDROID&txp=4532434&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Ccnr%2Cratebypass%2Cdur%2Clmt&sig=AOq0QJ8wRQIgLZ9TyLzY2RuPtl0tmmLTWvufwkfbgrHVI_ihH4rbJ0wCIQDO3qBe_UVKX-cGVaLV4eNGZGMhWl-4sf1M8YZUszU9sA%3D%3D&redirect_counter=1&rm=sn-p5qeee7e&req_id=22982873a096a3ee&cms_redirect=yes&cmsv=e&ipbypass=yes&mh=C1&mip=182.181.248.247&mm=31&mn=sn-2uja-pnck&ms=au&mt=1695481779&mv=m&mvi=1&pcm2cms=yes&pl=17&lsparams=ipbypass,mh,mip,mm,mn,ms,mv,mvi,pcm2cms,pl&lsig=AG3C_xAwRQIgMR_HFk4KpLlJ1B50BQRbQkmR_yur9J2gD5MffgqI1wMCIQCuCC_MHk5Y9G239iRNeIfg1D2WggxjjhH-HKwWFTpbFg%3D%3D');
 
   const VideoDownloader = async() => {
     setError(null);
@@ -85,6 +87,10 @@ const Home = ({ t }) => {
       }
       if (supported) {
         setLoading(true)
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
         // Router.push({
         //   pathname: "/download",
         //   query: { link}
@@ -118,27 +124,10 @@ const Home = ({ t }) => {
     );
     setPrices(response?.data[0]);
   };
-  const fetchSubscriptionData = async () => {
-    const { data: response } = await Axios.get(
-      "/subscription"
-    );
-    if (state?.data && response?.length !==0) {
-      setIsModalOpen(false)
-  console.log(response?.length, "len")
-
-    } else {
-      if(sessionStorage.getItem("Subscription") === "No") {
-        setIsModalOpen(true)
-        console.log(response?.length, "len8")
-
-      }
-    }
-    setSubscriptionData(response)
-  };
-
-  const CheckURlValidation = () => {
+  const AfterClosePatreon = () => {
+    setIsPatreonModal(false)
     if (validator.isURL(link)) {
-      if (state?.data && subscriptionData?.length !==0) {
+      if (state?.data) {
         VideoDownloader()
       } else {
         if (!state?.data) {
@@ -154,9 +143,20 @@ const Home = ({ t }) => {
       setError("Please Enter a Valid Url")
     }
   }
+  const CheckURlValidation = () => {
+    if (!state?.data) {
+      setIsAccountModal(true)
+      setError("")
+    } else {
+      setIsModalOpen(false)
+      setIsAccountModal(false)
+      setIsPatreonModal(true)
+      setError("")
+    }
+  }
   useEffect(() => {
     if (state?.data) {
-      fetchSubscriptionData()
+      // fetchSubscriptionData()
       fetchPrices()
     }
         
@@ -327,88 +327,11 @@ const Home = ({ t }) => {
                     </div>
                   </div>
                 </div>
-               {
-                isModalOpen &&  <div id="emailForm">
-                <span className='close' onClick={() => {
-                  setIsModalOpen(false)
-                  sessionStorage.setItem("Subscription", "0")
-                }}>x</span>
-                <div className="container checkoutwrapper">
-                    <h3>Checkout</h3>
-                    <div className='checkout-price'>
-                      Join DDLVID <span className='check-price-label'>$3.99</span>/mo
-                    </div>
-                   <div>
-                    <p>Here's what Included</p>
-                    <div className='chechout-items'>
-                      <div className='c-item'>
-                        - Unlimited High Quality video Downloads
-                      </div>
-                      <div className='c-item'>
-                        - Unlimited Url Shortens
-                      </div>
-                      <div className='c-item'>
-                        - Safest Online Community, No Malware or advertise
-                      </div>
-                      <div className='c-item'>
-                        - Discord Access
-                      </div>
-                      <div className='c-item'>
-                        - Meme Club Membership
-                      </div>
-                      <div className='c-item'>
-                        - Twitter and Telegram Bot Usage
-                      </div>
-                    </div>
-                   {/* <p>
-                        <input
-                            type="email"
-                            placeholder="Enter your email address"
-                            // onChange={(e) => setEmail(e.target.value)}
-                        />
-                    </p> */}
-                    <p style={{textAlign: 'center'}}>
-                        <button onClick={() => {
-                          if (state?.data) {
-                            if (state?.data && subscriptionData?.length === 0) {
-                              CreateStripeSession()
-                            } else {
-                                VideoDownloader()
-                            }
-                          } else {
-                            Navigator.push('/login')
-                          }
-                        }}>Checkout</button>
-                    </p>
-                   </div>
-                </div>
-            </div>
+                {
+                isAccountModal && <LoginModal setIsAccountModal={setIsAccountModal}/>
                }
                 {
-                isAccountModal &&  <div id="emailForm">
-                <span className='close' onClick={() => setIsAccountModal(false)}>x</span>
-                <div className="container checkoutwrapper">
-                    <h3>Account</h3>
-                    <div className='checkout-price'>
-                      {/* Join DDLVID <span className='check-price-label'>$3.99</span>/ */}
-                      You need an account to use DDlVid
-                    </div>
-                   <div>
-                    <div className='account_modal_buttons'>
-                    <Link href={'/login'}>
-                      <button>
-                          <span style={{color:'white'}}>Login</span>
-                      </button>
-                      </Link>
-                      <Link href={'/signup'}>
-                      <button>
-                          <span style={{color:'white'}}>Sign Up</span>
-                      </button>
-                      </Link>
-                    </div>
-                   </div>
-                </div>
-            </div>
+                isPatreonModal && <PatreonModal setIsAccountModal={setIsPatreonModal} MainFunc={AfterClosePatreon}/>
                }
                 <div className="section5">
                   <div className="container">

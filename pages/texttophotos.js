@@ -12,6 +12,8 @@ import Axios from 'axios';
 import { UserContext } from '../Context';
 import ApiLoader from './parts/apiloader';
 import CheckOutModal from './parts/checkoutmodal';
+import LoginModal from './parts/loginmodal';
+import PatreonModal from './parts/patreonmodal';
 const lntobr = (str) => {
   return str.split("\n").map(function(item, i) {
     return (
@@ -31,6 +33,8 @@ const texttophotosPage = ({ t }) => {
   const [iscopied, setIsCopied] = useState(false);
   const [subscriptionData, setSubscriptionData] = useState([]);
   const [state, setState] = useContext(UserContext);
+  const [isPatreonModal, setIsPatreonModal] = useState(false);
+
 
   const texttophotosPage = async (e) => {
     setIsLoading(true)
@@ -83,25 +87,36 @@ const texttophotosPage = ({ t }) => {
     );
     setPrices(response?.data[2]);
   };
-  const fetchSubscriptionData = async () => {
-    const { data: response } = await Axios.get(
-      "/subscription"
-    );
-    setSubscriptionData(response)
-  };
+  // const fetchSubscriptionData = async () => {
+  //   const { data: response } = await Axios.get(
+  //     "/subscription"
+  //   );
+  //   setSubscriptionData(response)
+  // };
 
+  const AfterClosePatreon = () => {
+    setIsPatreonModal(false)
+    if (state?.data) {
+      setIsCopied(false)
+      texttophotosPage()
+    } else {
+      setIsModalOpen(true)
+      setError("")
+    }
+  }
   const CheckURlValidation = () => {
-      if (state?.data && subscriptionData?.length !==0) {
-        setIsCopied(false)
-        texttophotosPage()
-      } else {
-        setIsModalOpen(true)
-        setError("")
-      }
+    if (!state?.data) {
+      setIsAccountModal(true)
+      setError("")
+    } else {
+      setIsModalOpen(false)
+      setIsPatreonModal(true)
+      setError("")
+    }
   }
   useEffect(() => {
     if (state?.data) {
-      fetchSubscriptionData()
+      // fetchSubscriptionData()
       fetchPrices()
     }
   }, [state])
@@ -257,8 +272,11 @@ const texttophotosPage = ({ t }) => {
           }
         
          {
-          isModalOpen &&  <CheckOutModal MainFunc={texttophotosPage} setIsModalOpen={setIsModalOpen} priceId={prices?.id}/>
+          isModalOpen &&  <LoginModal setIsModalOpen={setIsModalOpen}/>
          }
+          {
+                isPatreonModal && <PatreonModal setIsAccountModal={setIsPatreonModal} MainFunc={AfterClosePatreon}/>
+               }
           <div className="section5">
             <div className="container">
               <div className="img" />

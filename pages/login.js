@@ -59,7 +59,7 @@ const Login = ({ t }) => {
                             "authorization"
                           ] = `Bearer ${res.data.data.token}`;
                         // Navigator.push('/')
-                        sessionStorage.setItem("Subscription", "No")
+                        // sessionStorage.setItem("Subscription", "No")
                         window.location.href = "/"
                        } else {
                         setLoading(false);

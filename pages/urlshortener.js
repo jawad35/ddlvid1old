@@ -14,6 +14,8 @@ import validator from 'validator';
 import Copy from "copy-to-clipboard";
 import ApiLoader from './parts/apiloader';
 import CheckOutModal from './parts/checkoutmodal';
+import LoginModal from './parts/loginmodal';
+import PatreonModal from './parts/patreonmodal';
 const lntobr = (str) => {
   return str.split("\n").map(function(item, i) {
     return (
@@ -32,6 +34,7 @@ const Home = ({ t }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [iscopied, setIsCopied] = useState(false);
   const [subscriptionData, setSubscriptionData] = useState([]);
+  const [isPatreonModal, setIsPatreonModal] = useState(false);
 
   const [state, setState] = useContext(UserContext);
 
@@ -57,16 +60,17 @@ const Home = ({ t }) => {
     console.log(response?.data[2]);
     setPrices(response?.data[2]);
   };
-  const fetchSubscriptionData = async () => {
-    const { data: response } = await Axios.get(
-      "/subscription"
-    );
-    setSubscriptionData(response)
-  };
+  // const fetchSubscriptionData = async () => {
+  //   const { data: response } = await Axios.get(
+  //     "/subscription"
+  //   );
+  //   setSubscriptionData(response)
+  // };
 
-  const CheckURlValidation = () => {
+  const AfterClosePatreon = () => {
+    setIsPatreonModal(false)
     if (validator.isURL(link)) {
-      if (state?.data && subscriptionData?.length !==0) {
+      if (state?.data) {
         setIsCopied(false)
         setIsShortUrl(false)
         LinkShortener()
@@ -78,9 +82,22 @@ const Home = ({ t }) => {
       setError("Please Enter a Valid Url")
     }
   }
+
+  const CheckURlValidation = () => {
+    if (!state?.data) {
+      setIsModalOpen(true)
+      // setIsAccountModal(true)
+      setError("")
+    } else {
+      setIsModalOpen(false)
+      // setIsAccountModal(false)
+      setIsPatreonModal(true)
+      setError("")
+    }
+  }
   useEffect(() => {
     if (state?.data) {
-      fetchSubscriptionData()
+      // fetchSubscriptionData()
       fetchPrices()
     }
   }, [state])
@@ -229,10 +246,15 @@ const Home = ({ t }) => {
             </p>
       </div>
           }
-        
-         {
-          isModalOpen &&  <CheckOutModal MainFunc={LinkShortener} setIsModalOpen={setIsModalOpen} priceId={prices?.id}/>
+        {
+          isModalOpen &&  <LoginModal setIsModalOpen={setIsModalOpen}/>
          }
+          {
+                isPatreonModal && <PatreonModal setIsAccountModal={setIsPatreonModal} MainFunc={AfterClosePatreon}/>
+               }
+         {/* {
+          isModalOpen &&  <CheckOutModal MainFunc={LinkShortener} setIsModalOpen={setIsModalOpen} priceId={prices?.id}/>
+         } */}
           <div className="section5">
             <div className="container">
               <div className="img" />
