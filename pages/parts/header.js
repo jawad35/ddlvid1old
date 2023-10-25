@@ -84,12 +84,6 @@ const Header = ({ t }) => {
                         <li>
                             <Link href="/urlshortener"><a onClick={() => setShowMobileMenu(false)} title={t('url_shortener')}>{t('url_shortener')}</a></Link>
                         </li>
-                        <li>
-                            <Link href="/texttophotos"><a onClick={() => setShowMobileMenu(false)} title={t('text_to_video')}>{t('text_to_video')}</a></Link>
-                        </li>
-                        <li>
-                            <Link href="/keywordssuggestions"><a onClick={() => setShowMobileMenu(false)} title={t('photos_vidoes')}>{t('photos_vidoes')}</a></Link>
-                        </li>
                          {/* <li>
                             <Link href="/about"><a onClick={() => setShowMobileMenu(false)} title={t('about_us') + ' - DDLVid'}>{t('about_us')}</a></Link>
                         </li> */}

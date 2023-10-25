@@ -67,33 +67,38 @@ const Home = ({ t }) => {
   //   setSubscriptionData(response)
   // };
 
-  const AfterClosePatreon = () => {
-    setIsPatreonModal(false)
-    if (validator.isURL(link)) {
-      if (state?.data) {
-        setIsCopied(false)
-        setIsShortUrl(false)
-        LinkShortener()
-      } else {
-        setIsModalOpen(true)
-        setError("")
-      }
-    } else {
-      setError("Please Enter a Valid Url")
-    }
-  }
+  // const AfterClosePatreon = () => {
+  //   setIsPatreonModal(false)
+  //   if (validator.isURL(link)) {
+  //     if (state?.data) {
+  //       setIsCopied(false)
+  //       setIsShortUrl(false)
+  //       LinkShortener()
+  //     } else {
+  //       setIsModalOpen(true)
+  //       setError("")
+  //     }
+  //   } else {
+  //     setError("Please Enter a Valid Url")
+  //   }
+  // }
 
   const CheckURlValidation = () => {
-    if (!state?.data) {
-      setIsModalOpen(true)
-      // setIsAccountModal(true)
-      setError("")
-    } else {
-      setIsModalOpen(false)
-      // setIsAccountModal(false)
-      setIsPatreonModal(true)
-      setError("")
-    }
+    LinkShortener()
+    // setIsModalOpen(false)
+    // setIsAccountModal(false)
+    // setIsPatreonModal(true)
+    setError("")
+    // if (!state?.data) {
+    //   setIsModalOpen(true)
+    //   // setIsAccountModal(true)
+    //   setError("")
+    // } else {
+    //   setIsModalOpen(false)
+    //   // setIsAccountModal(false)
+    //   setIsPatreonModal(true)
+    //   setError("")
+    // }
   }
   useEffect(() => {
     if (state?.data) {
@@ -249,9 +254,9 @@ const Home = ({ t }) => {
         {
           isModalOpen &&  <LoginModal setIsModalOpen={setIsModalOpen}/>
          }
-          {
+          {/* {
                 isPatreonModal && <PatreonModal setIsAccountModal={setIsPatreonModal} MainFunc={AfterClosePatreon}/>
-               }
+               } */}
          {/* {
           isModalOpen &&  <CheckOutModal MainFunc={LinkShortener} setIsModalOpen={setIsModalOpen} priceId={prices?.id}/>
          } */}

@@ -124,35 +124,37 @@ const Home = ({ t }) => {
     );
     setPrices(response?.data[0]);
   };
-  const AfterClosePatreon = () => {
-    setIsPatreonModal(false)
-    if (validator.isURL(link)) {
-      if (state?.data) {
-        VideoDownloader()
-      } else {
-        if (!state?.data) {
-          setIsAccountModal(true)
-          setError("")
-        } else {
-          setIsModalOpen(true)
-          setError("")
-        }
+  // const AfterClosePatreon = () => {
+  //   setIsPatreonModal(false)
+  //   if (validator.isURL(link)) {
+  //     if (state?.data) {
+  //       VideoDownloader()
+  //     } else {
+  //       if (!state?.data) {
+  //         setIsAccountModal(true)
+  //         setError("")
+  //       } else {
+  //         setIsModalOpen(true)
+  //         setError("")
+  //       }
       
-      }
-    } else {
-      setError("Please Enter a Valid Url")
-    }
-  }
+  //     }
+  //   } else {
+  //     setError("Please Enter a Valid Url")
+  //   }
+  // }
   const CheckURlValidation = () => {
-    if (!state?.data) {
-      setIsAccountModal(true)
-      setError("")
-    } else {
-      setIsModalOpen(false)
-      setIsAccountModal(false)
-      setIsPatreonModal(true)
-      setError("")
-    }
+        VideoDownloader()
+        setError("")
+    // if (!state?.data) {
+    //   setIsAccountModal(true)
+    //   setError("")
+    // } else {
+    //   setIsModalOpen(false)
+    //   setIsAccountModal(false)
+    //   setIsPatreonModal(true)
+    //   setError("")
+    // }
   }
   useEffect(() => {
     if (state?.data) {
@@ -330,9 +332,9 @@ const Home = ({ t }) => {
                 {
                 isAccountModal && <LoginModal setIsAccountModal={setIsAccountModal}/>
                }
-                {
+                {/* {
                 isPatreonModal && <PatreonModal setIsAccountModal={setIsPatreonModal} MainFunc={AfterClosePatreon}/>
-               }
+               } */}
                 <div className="section5">
                   <div className="container">
                     <div className="img" />
