@@ -178,7 +178,7 @@ const Home = ({ t }) => {
           <div className="section1">
             <div className="container">
               <div className="headline">
-                <img className='banner_image' src={"/assets/images/main-ddlvid-banner.jpeg"} alt={"Image Crashed"} style={{ width: '100%', height: 'auto' }} />
+                {/* <img className='banner_image' src={"/assets/images/main-ddlvid-banner.jpeg"} alt={"Image Crashed"} style={{ width: '100%', height: 'auto' }} /> */}
                 <h1>{t('shortener_headline')}</h1>
                 <div className="desc">
                   {lntobr(t('shortener_sub_headline'))}
@@ -270,7 +270,7 @@ const Home = ({ t }) => {
             </div>
           </div>
           <div className='blog-article container'>
-          <img src={"/assets/images/ddlvide-image.jpeg"} alt={"Image Crashed"} style={{ width: '100%', height: 'auto' }} />
+          {/* <img src={"/assets/images/ddlvide-image.jpeg"} alt={"Image Crashed"} style={{ width: '100%', height: 'auto' }} /> */}
           <p className='blog-article-text'>
           We are adding services to The World's Best Video Downloader & created the safest URL shortener on the planet, no Malware or spam adverts on your computer for your total peace of mind!
           <br/>
@@ -278,9 +278,9 @@ const Home = ({ t }) => {
           We have safely been offering SAAS tools to our millions of users for over 3 years now so, jump on in & join the DDLVid community now!
           </p>
           </p>
-            <p style={{textAlign:'center'}}>
-            <button>Read More</button>
-              </p>  
+          <p style={{textAlign:'center'}}>
+                  <button>Read More</button>
+                    </p>  
           </div>
           <div className="section8">
             <div className="container">

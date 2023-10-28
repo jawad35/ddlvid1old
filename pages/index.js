@@ -250,7 +250,7 @@ const Home = ({ t }) => {
                 <div className="section1">
                   <div className="container">
                     <div className="headline">
-                      <img className='banner_image' src={"/assets/images/main-ddlvid-banner.jpeg"} alt={"Image Crashed"} style={{ width: '100%', height: 'auto' }} />
+                      {/* <img className='banner_image' src={"/assets/images/main-ddlvid-banner.jpeg"} alt={"Image Crashed"} style={{ width: '100%', height: 'auto' }} /> */}
                       <h1>{t('headline')}</h1>
                       <div className="desc">
                         {lntobr(t('sub_headline'))}
@@ -401,7 +401,7 @@ const Home = ({ t }) => {
                   </div>
                 </div> */}
                  <div className='blog-article container'>
-                <img src={"/assets/images/ddlvide-image.jpeg"} alt={"Image Crashed"} style={{ width: '100%', height: 'auto' }} />
+                {/* <img src={"/assets/images/ddlvide-image.jpeg"} alt={"Image Crashed"} style={{ width: '100%', height: 'auto' }} /> */}
                 <p className='blog-article-text'>
                 DDLVid is an online web app to download videos from famous sites and social networks like Facebook, Twitter, TikTok, Youtube and more
                 <br/>

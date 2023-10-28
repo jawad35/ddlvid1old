@@ -97,7 +97,7 @@ const About = ({ t }) => {
       Thanks for trusting us, the World's safest video downloader service.
       </p>
     </div> */}
-    <img src={"/assets/images/ddlvide-image.jpeg"} alt={"Image Crashed"} style={{ width: '100%', height: 'auto', marginTop:'30px' }} />
+    {/* <img src={"/assets/images/ddlvide-image.jpeg"} alt={"Image Crashed"} style={{ width: '100%', height: 'auto', marginTop:'30px' }} /> */}
   </div>
 </div>
                 </div>

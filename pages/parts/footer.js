@@ -34,19 +34,7 @@ const Footer = ({ t }) => {
     return ( <>
     <footer className="footer-distributed">
 
-<div className="footer-left">
-    <strong style={{fontSize:'17px', color:'white'}}>Quick Links:</strong>
-  <p className="footer-links">
-    <p>
-    <a href="/about">About Us</a>
-    </p>
-    <p>
-    <a href="/blogs">Blogs</a>
-    </p>
-  </p>
 
-  {/* <p className="footer-company-name">Bangin &copy; 2018</p> */}
-</div>
 
 {/* <div className="footer-center">
 
