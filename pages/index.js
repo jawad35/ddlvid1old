@@ -296,6 +296,11 @@ const Home = ({ t }) => {
                             required
                             autoComplete="off"
                             className={(error) ? 'has-error' : null}
+                            onKeyDown={(e) => {
+                              if (e.key === 'Enter') {
+                                alert('hello')
+                              }
+                            }}
                           />
                           <div className="download">
                             <button onClick={() => CheckURlValidation()}>{t('get_the_video')}</button>
