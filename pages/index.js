@@ -11,11 +11,7 @@ import Footer from './parts/footer';
 import AD2HS from './parts/ad2hs';
 import Axios from 'axios';
 import { UserContext } from '../Context';
-import validator from 'validator'
 import LoginModal from './parts/loginmodal';
-import PatreonModal from './parts/patreonmodal';
-
-// import Banner from '../public/assets/images/ddlvide-new-logo.png'
 const lntobr = (str) => {
   return str.split("\n").map(function(item, i) {
     return (
@@ -30,51 +26,16 @@ const Home = ({ t }) => {
   const [error, setError] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isAccountModal, setIsAccountModal] = useState(false);
-  const [isPatreonModal, setIsPatreonModal] = useState(false);
   const [prices, setPrices] = useState([]);
-  const [subscriptionData, setSubscriptionData] = useState([]);
   const [loading, setLoading] = useState(false);
-  const Navigator = Router
   const [state, setState] = useContext(UserContext);
- 
-  // const CreateStripeSession = async () => {
-  //   const { data: response } = await Axios.post(
-  //     "/session",
-  //     {
-  //       priceId: prices.id,
-  //     }
-  //   );
-  //   Navigator.push(response.url)
-  //   // window.location.href = response.url;
-  // };
-  
-
 
   const VideoDownloader = async() => {
     setError(null);
     if (link !== "") {
       const supported_sites = [
-        "youtube.com",
-        "youtu.be",
         "twitter.com",
-        "linkedin.com",
         "x.com",
-        "facebook.com",
-        "fb.com",
-        "tiktok.com",
-        "vimeo.com",
-        "instagram.com",
-        "reddit.com",
-        "pinterest.com",
-        "pin.it",
-        "ok.ru",
-        "periscope.tv",
-        "pscp.tv",
-        "t.co",
-        "fb.watch",
-        "fbwat.ch",
-        "vk.com",
-        "triller.co"
       ];
       var supported = false;
       var socialName = ''
@@ -265,12 +226,7 @@ const Home = ({ t }) => {
                           language: 'en',
                           min_count: 0,
                           networks: [
-                            'whatsapp',
-                            'messenger',
-                            'reddit',
                             'twitter',
-                            'facebook',
-                            'linkedin'
                           ],
                           padding: 12,
                           radius: 4,
@@ -298,7 +254,7 @@ const Home = ({ t }) => {
                             className={(error) ? 'has-error' : null}
                             onKeyDown={(e) => {
                               if (e.key === 'Enter') {
-                                alert('hello')
+                                CheckURlValidation()
                               }
                             }}
                           />
@@ -310,26 +266,9 @@ const Home = ({ t }) => {
                       </div>
                       <div className="supported_sites">
                         <span className="site twitter">Twitter</span>{' '}
-                        <span className="site facebook">Facebook</span>{' '}
-                        <span className="site instagram">Instagram</span>{' '}
-                        <span className="site tiktok">TikTok</span>{' '}
-                        <span className="site youtube">Youtube</span>{' '}
-                        <span className="site reddit">Reddit</span>{' '}
-                        <span className="site pinterest">Pinterest</span>{' '}
-                        <span className="site linkedin">LinkedIn</span>{' '}
-                        <span className="site vimeo">Vimeo</span>
                       </div>
-                      <div className="list_supported_sites">
+                      {/* <div className="list_supported_sites">
                         <Link href="/supported-websites"><a>{t('list_supported_websites')}</a></Link>
-                      </div>
-      
-                      {/* <div className="promo" style={{
-                          textAlign: "center",
-                          fontWeight: "bold",
-                          fontSize: "18px",
-                          margin: "20px 0"
-                      }}>
-                          <a href="https://go.nordvpn.net/aff_c?offer_id=15&aff_id=87658&source=ddlvid.com" style={{color:"#d73030"}} target="_blank">⚡️🔒 Download with Lightning Speed and Unbreakable Security! Get 59% off NordVPN + 3 extra months! 💪🌐</a>
                       </div> */}
                     </div>
                   </div>
@@ -408,15 +347,33 @@ const Home = ({ t }) => {
                  <div className='blog-article container'>
                 {/* <img src={"/assets/images/ddlvide-image.jpeg"} alt={"Image Crashed"} style={{ width: '100%', height: 'auto' }} /> */}
                 <p className='blog-article-text'>
-                DDLVid is an online web app to download videos from famous sites and social networks like Facebook, Twitter, TikTok, Youtube and more
+                DDLVid is an online web app to download videos from X (formerly Twitter)
                 <br/>
                 <p style={{margin:'15px 0px'}}>
-                Today it's so easy to upload videos online, there is so many popular websites that offer video uploading like Youtube, Facebook or Twitter. Downloading these videos is sometimes not easy and impossible, that's why we created DDLVid video downloader.
+                Today it's so easy to upload videos online, there is so many popular websites that offer video uploading. Downloading these videos is sometimes not easy and impossible, that's why we created DDLVid video downloader.
                 </p>
                   <br/>
-                  DDLVid can download videos from popular websites and convert videos to mp3 like Youtube links.
+                  <p>
+                  DDLVid can download videos from popular websites and convert videos to mp3 format.
       DDLVid can also download videos without watermark and get the original uploaded video file.
-                  </p> 
+                  </p>
+                  <br/>
+                  <p style={{margin:'15px 0px'}}>
+                  DDLVid can download videos from popular websites and convert videos to mp3 like from Twitter / X links. DDLVid can also download videos without watermark and get the original uploaded video file
+                    </p>
+                    <br/>
+                  <span style={{margin:'15px 0px'}}>
+                  Is it legal to download Twitter videos?
+                    </span>
+                    <br/>
+                  <p style={{margin:'15px 0px'}}>
+                  It is important to respect all copyrighted videos and not distribute, reproduce, or monetize the downloaded content without permission from the owner.
+                    </p>
+                    <br/>
+                  <p style={{margin:'15px 0px'}}>
+                  <strong>Notice:</strong> Ddlvid is in no way affiliated with X, Twitter, Inc. or its affiliates. TWITTER, TWEET, RETWEET and the Twitter Bird logo are trademarks of Twitter Inc. or its affiliates.
+                    </p>
+                  </p>
                   <p style={{textAlign:'center'}}>
                   <button>Read More</button>
                     </p>  

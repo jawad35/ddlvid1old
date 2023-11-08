@@ -8,6 +8,7 @@ import Footer from './parts/footer';
 import AD2HS from './parts/ad2hs';
 import { useRouter } from 'next/router';
 import Axios from 'axios';
+import VideoDownloader from './parts/VideoDownloaders';
 
 const Download = ({ t}) => {
 
@@ -132,12 +133,14 @@ const localDownload = async (url, backup_url, filename, ext) => {
                            <source src={`${query?.audio}`} type="audio/mpeg" />
                             </audio>
                             </div>
+                            
                                }
-                                <div className='video_downloader_page_note'>
+                               <VideoDownloader videoUrl={query?.link} title={query?.description}/>
+                                {/* <div className='video_downloader_page_note'>
                                     <strong>How to download the video?</strong>
                                     <br/>
                                     <span>Click right three dots to download video</span>
-                                </div>
+                                </div> */}
                                 {/* <a href={query?.link} download={"video.mp4"}>Download</a> */}
                             </div>
                         ) : (
