@@ -109,9 +109,9 @@ const localDownload = async (url, backup_url, filename, ext) => {
                         {query?.success ==="true" ? (
                             <div className="container card">
                                 <div className='desc video_downloader_page_title'>
-                                    {
+                                    {/* {
                                         query?.description !== "undefined" && <span>{query.description}</span>
-                                    }
+                                    } */}
                                 </div>
                                 {/* <div className="promo" style={{
                                     textAlign: "center",
@@ -127,21 +127,27 @@ const localDownload = async (url, backup_url, filename, ext) => {
                                 </video >
                                 </div> 
                                {
-                                query?.audio !== "undefined" &&  <div className='audio_downloader_container'>
-                                <p>You can download audio music here:</p>
-                           <audio controls>
-                           <source src={`${query?.audio}`} type="audio/mpeg" />
-                            </audio>
-                            </div>
+                        //         query?.audio !== "undefined" &&  <div className='audio_downloader_container'>
+                        //         <p>You can download audio music here:</p>
+                        //    <audio controls>
+                        //    <source src={`${query?.audio}`} type="audio/mpeg" />
+                        //     </audio>
+                        //     </div>
                             
                                }
-                               <VideoDownloader videoUrl={query?.link} title={query?.description}/>
+                               {/* <VideoDownloader videoUrl={query?.link} title={query?.description}/> */}
                                 {/* <div className='video_downloader_page_note'>
                                     <strong>How to download the video?</strong>
                                     <br/>
                                     <span>Click right three dots to download video</span>
                                 </div> */}
-                                {/* <a href={query?.link} download={"video.mp4"}>Download</a> */}
+                                <div style={{textAlign:'center', marginTop:'50px'}}>
+                                    <a href={query?.link} download={"video.mp4"}>
+                                        <button>
+                                        Download Video
+                                        </button>
+                                    </a>
+                                </div>
                             </div>
                         ) : (
                             <div className="card">

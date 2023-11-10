@@ -8,7 +8,7 @@ const AllMediaDownloader = async (url, socialName) => {
     encodedParams.set('url', url);
     const options = {
         method: 'POST',
-        url: 'https://all-media-downloader.p.rapidapi.com/rapid_download/download',
+        url: 'https://all-media-downloader.p.rapidapi.com/download',
         headers: {
           'content-type': 'application/x-www-form-urlencoded',
           'X-RapidAPI-Key': '07adaaa04emshebef44a15906b7cp11a4f2jsn8ecaa19035b4',
@@ -89,19 +89,28 @@ const AllMediaDownloader = async (url, socialName) => {
             }
           }
           if (socialName === "twitter.com" || socialName === "x.com") {
-              const FilteredItems  = []
-              response?.data?.data?.tweetResult?.result?.legacy?.extended_entities?.media[0]?.video_info?.variants?.map(item => {
-              if (item?.content_type === "video/mp4") {
-                  FilteredItems.push(item)
-              } 
-          })
-          const maxObject = FilteredItems.reduce((max, obj) => {
-            return obj.bitrate > max.bitrate ? obj : max;
-          }, FilteredItems[0]); // Initialize 'max' with the first object in the array
+            // console.log(response?.data?.[0], 'res45')
+            let keysArray = Object.keys(response?.data);
+
+// Get the last key
+let lastKey = keysArray[keysArray.length - 1];
+
+// Get the last object using the last key
+let lastObjectUrl = response?.data[lastKey]?.url;
+
+          //     const FilteredItems  = []
+          //     response?.data?.data?.tweetResult?.result?.legacy?.extended_entities?.media[0]?.video_info?.variants?.map(item => {
+          //     if (item?.content_type === "video/mp4") {
+          //         FilteredItems.push(item)
+          //     } 
+          // })
+          // const maxObject = FilteredItems.reduce((max, obj) => {
+          //   return obj.bitrate > max.bitrate ? obj : max;
+          // }, FilteredItems[0]); // Initialize 'max' with the first object in the array
             return {
                 success: true,
-                video_url: maxObject?.url,
-                description:response?.data?.data?.tweetResult?.result?.legacy?.full_text,
+                video_url: lastObjectUrl,
+                // description:response?.data?.data?.tweetResult?.result?.legacy?.full_text,
                 data:response.data
             }
           }
