@@ -59,12 +59,11 @@ const Home = ({ t }) => {
         const { data: response } = await Axios.post(
           "/videodownload", {link, socialName}
         );
-        console.log(response.data)
         setLoading(false)
         if (response?.data?.video_url) {
         Router.push({
           pathname: "/downloader",
-          query: { link:response?.data?.video_url, description:response?.data?.description, success: response?.data?.success, audio:response?.data?.audio}
+          query: { link:response?.data?.video_url, description:response?.data?.description, success: response?.data?.success}
         });
         } else {
          setError('Link not supported yet. please try later');

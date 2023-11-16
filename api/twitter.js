@@ -123,7 +123,7 @@ const get_tweet = async (id) => {
     try {
         let r = await axios.get(url, {
             headers: {
-                'X-RapidAPI-Key': 'b8f02ce690msh55da9885cec9172p18b781jsn504c61d99ca2',
+                'X-RapidAPI-Key': '07adaaa04emshebef44a15906b7cp11a4f2jsn8ecaa19035b4',
                 'X-RapidAPI-Host': 'twttrapi.p.rapidapi.com'
             }
         })
@@ -169,7 +169,7 @@ const get_tweet = async (id) => {
                                 result.videos.push({
                                     bitrate: video.bitrate,
                                     url: video.url,
-                                    download: 'https://ddl-v1.ddlvid.com/?file=DDLVID.COM-' + id + '.mp4&url=' + video.url.replace("https://", "").replace("http://", ""),
+                                    download: video.url,
                                     quality,
                                     index
                                 });

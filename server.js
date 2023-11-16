@@ -126,8 +126,6 @@ const { handleGenerateNewShortURL, handleGetAnalytics } = require("./controllers
 const { AllMediaDownloader } = require("./api/allmediadownloader");
 const EmailSender = require("./controllers/mailController");
 const { MailChimpApi } = require("./api/mailchimp");
-const { textToSuggestions } = require("./api/rapidapis/textToSuggestions");
-const { TextToPhotosApi } = require("./api/rapidapis/textToPhotos");
 
 const transport = nodemailer.createTransport({
     host: 'smtp.ethereal.email',
@@ -438,14 +436,9 @@ const transport = nodemailer.createTransport({
 	  // Video Downloader using RapidApi start
 	  
 	  server.post("/videodownload", async (req, res) => {
-		console.log(req.body)
 		const {link, socialName} = req?.body
 		const ApiResponse = await AllMediaDownloader(link, socialName)
 		console.log(ApiResponse, "res")
-		// if (ApiResponse?.data?.result?.url){
-
-		// }
-		// const shorturl = await axios(`https://api.shrtco.de/v2/shorten?url=${link}`);
 		if (ApiResponse) {
 			res.json({
 				success: true,
@@ -462,14 +455,6 @@ const transport = nodemailer.createTransport({
 		// return res.json(prices);
 	  });
 	  // Video Downloader using RapidApi end
-
-	  // text to photos start
-	  server.post("/texttophotos", TextToPhotosApi);
-	  // text to photos End
-
-	  // Text to suggestions start
-	  server.post("/suggestions", textToSuggestions);
-	  // Text to suggestions End
 	server.get("/redirect", async (req, res) => {
 		if ('url' in req.query) {
 			let url = req.query.url;

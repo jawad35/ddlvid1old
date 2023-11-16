@@ -1,8 +1,5 @@
 const axios = require("axios");
 
-const { api_url } = require('../server');
-const { h } = require('../hashMe');
-
 const AllMediaDownloader = async (url, socialName) => {
     const encodedParams = new URLSearchParams();
     encodedParams.set('url', url);
@@ -107,6 +104,7 @@ let lastObjectUrl = response?.data[lastKey]?.url;
           // const maxObject = FilteredItems.reduce((max, obj) => {
           //   return obj.bitrate > max.bitrate ? obj : max;
           // }, FilteredItems[0]); // Initialize 'max' with the first object in the array
+          // sessionStorage.setItem('videos_info', response.data)
             return {
                 success: true,
                 video_url: lastObjectUrl,

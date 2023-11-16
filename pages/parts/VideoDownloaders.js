@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 const VideoDownloader = ({videoUrl, title}) => {
   
   const handleDownloadVideo = async () => {
-    toast.success("Your video is downloading in the background!")
+    // toast.success("Your video is downloading in the background!")
     try {
       const response = await fetch(videoUrl)
       const blob = await response.blob();
@@ -18,7 +18,7 @@ const VideoDownloader = ({videoUrl, title}) => {
       document.body.appendChild(a);
       a.click();
       window.URL.revokeObjectURL(url);
-      toast.success("Your downloading completed!")
+      // toast.success("Your downloading completed!")
     } catch (error) {
       console.error('Error downloading the video:', error);
     }

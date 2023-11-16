@@ -113,14 +113,6 @@ const localDownload = async (url, backup_url, filename, ext) => {
                                         query?.description !== "undefined" && <span>{query.description}</span>
                                     } */}
                                 </div>
-                                {/* <div className="promo" style={{
-                                    textAlign: "center",
-                                    fontWeight: "bold",
-                                    fontSize: "18px",
-                                    margin: "20px 0"
-                                }}>
-                                    <a  href="https://v39.tiktokcdn-us.com/11b63b0ea93a389bea06382f85579035/65109c18/video/tos/useast2a/tos-useast2a-ve-0068c001/oUkePDg1EoOGBDNEIwJxjBAuQRf1wJN5pQWzrh/?a=1233&ch=0&cr=13&dr=0&lr=all&cd=0%7C0%7C0%7C&cv=1&br=704&bt=352&bti=OUBzOTg7QGo0NzZAL3AjLTAzYCM1NTNg&cs=0&ds=6&ft=_rbUxBnZq8Zmo_RC~Q_vjFiEnreLrus&mime_type=video_mp4&qs=4&rc=NjdpN2ZoPDU4O2ZkaTo4aUBpMzNyeDY6ZnJ3bTMzNzczM0AwLjMxYF4uXi4xXjMxNWE0YSMwNF4zcjQwX2xgLS1kMTZzcw%3D%3D&l=202309241425297778D9A64D9B058D2F84&btag=e00018000.mp4" download="downloaded_video.mp4">⚡️🔒 Download with Lightning Speed and Unbreakable Security! Get 59% off NordVPN + 3 extra months! 💪🌐</a>
-                                </div> */}
                                <div className='video_downloader_container'>
                                <video controls>
                                <source src={`${query?.link}`} />
@@ -143,7 +135,7 @@ const localDownload = async (url, backup_url, filename, ext) => {
                                 </div> */}
                                 <div style={{textAlign:'center', marginTop:'50px'}}>
                                     <a href={query?.link} download={"video.mp4"}>
-                                        <button>
+                                        <button >
                                         Download Video
                                         </button>
                                     </a>
